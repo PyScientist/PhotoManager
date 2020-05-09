@@ -10,8 +10,8 @@ on:
 jobs:
   My_verification:
 
-    runs-on: ubuntu-latest
-         name: Print Hello Message
+    runs-on: windows-latest
+       - name: Print Hello Message
          run : echo "hi github"
       
      
