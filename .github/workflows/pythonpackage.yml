@@ -29,5 +29,4 @@ jobs:
     - name: run python
       run : |
             python
-            import sys
-            print(sys)
+            pip install pyqt5
