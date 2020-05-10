@@ -13,7 +13,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-         name: Print Hello Message
-         run : echo "hi github"
+    - name: Print Hello Message
+      run : echo "hi github"
       
      
