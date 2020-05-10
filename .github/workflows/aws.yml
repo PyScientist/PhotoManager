@@ -1,0 +1,26 @@
+name: CI-ID-Pipline-to-AWS-ElasticBeastalk
+
+env:
+  EB_PACKAGE_S3_BUCKET_NAME: "adv-it-photomanager-application-packages"
+  EB_APPLICATION_NAME      : "MyPython"
+  EB_ENVIRONMENT_NAME      : "MyPython-env"
+  DEPLOY_PAVKAGE_NAME      : "python_app_${{ github.sha }}.zip"
+  AWS_REGION_NAME          : "EU (Stockholm) eu-north-1"
+
+on:
+  push:
+     branches:
+             -master
+
+jobs:
+    my_ci_part:
+         runs-on: ubuntu-latest
+         
+         steps: 
+           - name: Git clone our repo
+             uses: actions/checkout@v1
+            
+           - name: Create zip deployment package
+             run : zip -r ${{env.DEPLOY_PAVKAGE_NAME}} ./ -x *.git*
+            
+            
