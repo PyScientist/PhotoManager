@@ -25,9 +25,3 @@ jobs:
 
     - name: List folder
       run : dir
-
-    - name: run python
-      run : |
-            python
-            pip install pyqt5
-            FacadePhotoManager.py
