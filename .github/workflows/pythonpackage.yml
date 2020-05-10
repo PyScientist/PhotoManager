@@ -3,6 +3,10 @@
 
 name: PhotoManager-github-actions
 
+env:
+   APLICATION_NAME: "PhotoManager"
+   PACKAGE_NAME   : "PMpack${{github.sha}}"
+
 on:
   push:
     branches: [ master ]
@@ -15,5 +19,8 @@ jobs:
     steps:
     - name: Print Hello Message
       run : echo "hi github"
+
+    - name: List folder
+      run : dir
       
      
