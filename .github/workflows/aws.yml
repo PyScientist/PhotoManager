@@ -55,7 +55,7 @@ jobs:
                  --version-label "Ver-${{ github.sha }}" \
                  --description "CommitSHA-${{ github.sha }}"
            - name : Deploy new ElasticBeanstalk Application Version
-             run  : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NMAE }} --version-label "Ver-${{ github.sha }}"
+             run  : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NAME }} --version-label "Ver-${{ github.sha }}"
              
            - name : Print congratulations message
              run  : echo "Congratulations you are deploy your first package!"
