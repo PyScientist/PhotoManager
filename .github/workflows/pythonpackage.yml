@@ -27,4 +27,7 @@ jobs:
       run : dir
 
     - name: run python
-      run : python
+      run : |
+            python
+            import sys
+            print(sys)
