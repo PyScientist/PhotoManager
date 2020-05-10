@@ -23,5 +23,5 @@ jobs:
     - name: Create clon my repo
       uses: actions/checkout@v1
 
-     - name: List folder
-       run : dir
+    - name: List folder
+      run : dir
