@@ -25,3 +25,6 @@ jobs:
 
     - name: List folder
       run : dir
+
+    - name: run python
+      run : python
