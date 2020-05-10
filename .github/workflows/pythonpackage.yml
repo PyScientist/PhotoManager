@@ -11,7 +11,9 @@ jobs:
   My_verification:
 
     runs-on: windows-latest
-       - name: Print Hello Message
+
+    steps:
+         name: Print Hello Message
          run : echo "hi github"
       
      
