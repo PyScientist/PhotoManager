@@ -33,8 +33,8 @@ jobs:
              run : aws s3 cp ${{ env.DEPLOY_PAVKAGE_NAME }} s3://${{ env.EB_PACKAGE_S3_BUCKET_NAME }}/
              
            - name: Print congratulations message
-             run : echo "Congratulations you are deploy your first package!
-         
+             run : echo "Congratulations you are deploy your first package!"
+             
     my_cd_part:
          runs-on: ubuntu-latest
          needs  : my_ci_part
@@ -58,7 +58,7 @@ jobs:
              run  : aws elasticbeanstalk update-environment --environment-name ${{ env.EB_ENVIRONMENT_NMAE }} --version-label "Ver-${{ github.sha }}"
              
            - name : Print congratulations message
-             run  : echo "Congratulations you are deploy your first package!
+             run  : echo "Congratulations you are deploy your first package!"
                  
                  
                  
