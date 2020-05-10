@@ -1,5 +1,5 @@
 # PhotoManager
-Managing pictures (search, compare, store) currently under constraction
+Managing pictures (search, compare, store) currently under construction
 
 Status of Last Deployment: <br>
 <img src="https://github.com/PyScientist/PhotoManager/workflows/CI-ID-Pipline-to-AWS-ElasticBeastalk/badge.svg?branch=master"><br>
