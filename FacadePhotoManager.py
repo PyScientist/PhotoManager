@@ -124,7 +124,7 @@ class ObjectSet:
             self.children_names.append(F'{self.path}{name}')
         self.children_container = []
         for obj in os.listdir(self.path):
-            self.children_container.append(Object(F'{self.path}{obj}'))
+            self.children_container.append(FileSystemObject(F'{self.path}{obj}'))
 
     def exts(self):
         self.ext_list = []
@@ -182,7 +182,7 @@ class ObjectSet:
         # Запускаем рекурсивную функцию поиска папок
         cycle_sub_find(self, folders = self.folder_list, folders_new = self.folder_list)
 
-        # По всем найденным папкам ищим файлы и вложенные папки
+        # По всем найденным папкам ищем файлы и вложенные папки
         all_children = []
         for folder in self.folder_list:
             children_of_folder = (os.listdir(folder))
@@ -190,24 +190,31 @@ class ObjectSet:
                 all_children.append(F'{folder}/{name}')
 
         # Путь к каждому файлу включаем в список и создаем объект, который помещаем в контейнер
-        for name in all_children:
-            self.children_names.append(F'{name}')
-            self.children_container.append(Object(F'{name}'))
+        for abs_path in all_children:
+            self.children_names.append(F'{abs_path}')
+            self.children_container.append(FileSystemObject(F'{abs_path}'))
 
     def count_ext_types(self):
 
         def ext_counter(ext_list, self):
-            'функция для суммирования колличества файлов с однотипными рас'
+            '''
+            Функция для суммирования колличества файлов с однотипными расширениями
+            :param ext_list:
+            :param self:
+            :return: counter
+            '''
             counter = 0
             for ext in ext_list:
                 counter += self.ext_list.count(ext.lower())
             return counter
 
+        # С помощью стандартного метода count получаем колличество файлов и папок в атрибуте "type_list"
+        # представляющем из себя словарь, добавляем результат в словарь колличества файлов определенного типа
         self.voc_types.update({'file': self.type_list.count('file')})
         self.voc_types.update({'folder': self.type_list.count('folder')})
 
         # Считаем сколько файлов и с какими расширениями есть в каталоге
-        # По результатам подсчетом колличества файлов с оопределенными расширениями дополняем словарь
+        # По результатам подсчета колличества файлов с определенными расширениями дополняем словарь
         doc_ext = ['.doc', '.docx']
         self.voc_types.update({'doc file': ext_counter(doc_ext, self)})
         excel_ext = ['.xls', '.xlsx', '.xlsm']
@@ -230,33 +237,46 @@ class ObjectSet:
         self.voc_types.update({'dlis file': ext_counter(dlis_ext, self)})
 
 
-class Object:
+class FileSystemObject:
     '''
-    Класс объекта, может быть как папкой, так и файлом
+    Класс объекта представляющий собой папку или файл (при создании на вход подается
+    абсолютный путь по которому находится объект).
+    Содержит атрибуты:
+    path - абсолютный путь по которому находится объект;
+    ext - расширение объекта, в случае папки присваивается расширение '.folder';
+    type - тип объекта [file, folder, unknown];
+    size - размер объекта (как ведеь себя в случае папки?).
     '''
     def __init__(self, path):
         self.path = path
-        print(path, len(path))
-        self.ext = os.path.splitext(path)[1]
-        print(self.ext)
-        self.type = ''
+
+        # Узнаем размер файла, также проверяем корректность его пути (на длинну)
         if len(path)>256:
             self.size = 0
+            print('Caution!!!! the length of file path more than 256 characters')
         else:
             self.size = os.path.getsize(self.path)
         self.date = ''
-        # Вызываем методы формирующие экземпляр класса
-        self.type_findout()
 
-    def type_findout(self):
+        # Вызываем метод с помощью которого получаем тип и расширение
+        self.type_ext_findout()
+
+    def type_ext_findout(self):
+        '''
+        Метод присваивает в атрибуты "type" и "ext" класса значения полученные в результате обработки
+        абсолютного пути к файлу, возвращает None как результат корректной работы
+        :return: None
+        '''
         if os.path.isdir(self.path):
             self.type = 'folder'
             self.ext = '.folder'
         elif os.path.isfile(self.path):
             self.type = 'file'
+            self.ext = os.path.splitext(self.path)[1]
         else:
             self.type = 'unknown'
             self.ext = '.unknown'
+        return None
 
 def main_application():
     app = QApplication(sys.argv)
