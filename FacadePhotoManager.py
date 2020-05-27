@@ -1,93 +1,88 @@
-import sys, os
+import sys
+import os
 from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QListWidgetItem
 from PyQt5.QtCore import Qt
 from PhotoManagerMainwindow import Ui_MainWindow
 
 
-def add_element_in_QListWidget(list_widget, element):
+def add_element_in_q_list_widget(list_widget, element):
+    """Function which add item in list "QListWidget" the function obtains
+    "item" and "QListWidget" instance where it is need to add "item"
     """
-    Функцция которая добавляет элемент в список на вход подается элемент и список в который он добавляется
-    """
-    item = QListWidgetItem()  # Создаем объект элемента списка QListWidget
-    item.setCheckState(Qt.Checked)  # Добавляем chekbox для объекта QListWigetItem и делаеи его выделенным
-    item.setText(element)  # Устанавливаем текст в элемент
-    list_widget.addItem(item)  # Добавляем элемент в список QListWidget
+    item = QListWidgetItem()  # Create instance of list item for QListWidget
+    item.setCheckState(Qt.Checked)  # Adding "checkbox"  for QListWidgetItem instance and set it checked
+    item.setText(element)  # Set text for QListWidgetItem instance
+    list_widget.addItem(item)  # Adding QListWidgetItem instance into the QListWidget
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    '''
-    Класс основного окна приложения с методами для запуска обработки данных
-    '''
+    """Class of application main window with methods of data processing
+    """
     def __init__(self):
-        QMainWindow.__init__(self)
+        QMainWindow.__init__(self, parent=None, flags=Qt.WindowFlags())
         self.setupUi(self)
+        # Launch adjustments for Application widgets
         self.adjust_widgets()
         self.objects_set = []
 
     def adjust_widgets(self):
-        '''
-        Метод настраивает работу виджетов основного окна
+        """Method adjusts work of Application main window widgets
         :return: void
-        '''
+        """
         self.toolButton_choose_dir.clicked.connect(self.folder_dialog)
         self.toolButton_load_files.clicked.connect(self.get_file_list_and_stat)
-        self.lineEdit_for_dir_name.setText('c:/Users/Сергей/Documents/main/+Работа/+corantine 2020/')
+        self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
 
     def folder_dialog(self):
-        '''
-        Метод вызывает диалог для выбора пути к дерркитории, которую необходимо проанализировать
+        """Method calls dialog for path to directory which need to analyse choosing
         :return: void
-        '''
-        dialog_name = 'Please choose some folder to open'
-        folder_init_name = 'c:/Users/Сергей/Documents/main/+Работа/+corantine 2020/'
-        foldername = QFileDialog.getExistingDirectory(self, dialog_name, folder_init_name)
-        self.lineEdit_for_dir_name.setText(F'{foldername}/')
+        """
+        dialog_name = 'Please choose some folder to analyse'
+        folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-', None, None)
+        self.lineEdit_for_dir_name.setText(F'{folder_name}/')
 
     def get_file_list_and_stat(self):
-        '''
-        Метод помещает список объектов выбранной дирректории в QListWidget, а такжже проводит их анализ
-        выводит результат в QTextEdit
+        """Method launch the processing, puts list of objects of selected directory in QListWidget, puts results of
+        analysis into QTextEdit widget
         :return: void
-        '''
+        """
 
-        object_set = ObjectSet(self.lineEdit_for_dir_name.text())
+        file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text())
 
-        self.objects_set.append(object_set)
+        self.objects_set.append(file_objects_set)
 
-        # Помещаем список файлов в QListWidget
-
+        # Put the list of file objects into QListWidget
         self.listWidget_for_files.clear()
-        for file in object_set.children_names:
-            add_element_in_QListWidget(self.listWidget_for_files, file)
+        for file in file_objects_set.children_names:
+            add_element_in_q_list_widget(self.listWidget_for_files, file)
+
+        # Print the results of analysis into QTextEdit widget
 
         self.textEdit_for_report.setText('')
-        self.textEdit_for_report.setText(F'Всего в дирректории {len(object_set.children_names)} объекта')
-        self.textEdit_for_report.append(F'из них {object_set.voc_types["file"]} файла и {object_set.voc_types["folder"]} папки')
-        self.textEdit_for_report.append(F'{object_set.voc_types["xls file"]} excel файла')
-        self.textEdit_for_report.append(F'{object_set.voc_types["doc file"]} word документа')
-        self.textEdit_for_report.append(F'{object_set.voc_types["rar file"]} файла архива')
-        self.textEdit_for_report.append(F'{object_set.voc_types["pict. file"]} файла рисунка')
-        self.textEdit_for_report.append(F'{object_set.voc_types["pdf file"]} файла pdf')
-        self.textEdit_for_report.append(F'{object_set.voc_types["txt file"]} файла txt')
-        self.textEdit_for_report.append(F'{object_set.voc_types["csv file"]} файла csv')
-        self.textEdit_for_report.append(F'{object_set.voc_types["exe file"]} файла exe')
-        self.textEdit_for_report.append(F'{object_set.voc_types["las file"]} файла las')
-        self.textEdit_for_report.append(F'{object_set.voc_types["dlis file"]} файла dlis')
-        self.textEdit_for_report.append(F'минимальный размер файла: {min(object_set.size_list)/1048576} МБ')
-        self.textEdit_for_report.append(F'максимальный размер файла: {max(object_set.size_list)/1048576} МБ')
-        self.textEdit_for_report.append(F'суммарный размер файлов: {object_set.full_size/1048576} МБ')
-        self.textEdit_for_report.append(F'Глубина вложенности: {object_set.depth_of_folder}')
+        self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
+        self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
+                                        F'файла и {file_objects_set.voc_types["folder"]} папки')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["pict. file"]} файла рисунка')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["pdf file"]} файла pdf')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["txt file"]} файла txt')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["csv file"]} файла csv')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["exe file"]} файла exe')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["las file"]} файла las')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["dlis file"]} файла dlis')
+        self.textEdit_for_report.append(F'минимальный размер файла: {min(file_objects_set.size_list)/1048576} МБ')
+        self.textEdit_for_report.append(F'максимальный размер файла: {max(file_objects_set.size_list)/1048576} МБ')
+        self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size/1048576} МБ')
+        self.textEdit_for_report.append(F'Глубина вложенности: {file_objects_set.depth_of_folder}')
 
-        del object_set
+        print(file_objects_set.search_subfolders_and_files_in_them.__doc__)
 
-class General:
-    def __init__(self, path):
-        self.general_path
-        self.folder_list = 1
 
-class ObjectSet:
-    '''
-    Класс набора объектов (файлов и папок) имеет путь папки, который передается ему при инстанцировании
-    '''
+class FileObjectsSet:
+    """Класс набора объектов (файлов и папок) имеет путь папки, который передается ему при инстанцировании
+    """
     def __init__(self, path):
         self.name = 'unknown'
         self.path = path
@@ -160,52 +155,65 @@ class ObjectSet:
                 self.folder_list.append(obj.path)
 
     def search_subfolders_and_files_in_them(self):
+        """Метод выполняющий поиск в подпапках основной папки, по результатам работы
+         атрибуты объекта дополняются в соответствии с содержащимися в подпапках файловыми объектами
+         , оценивается уровень вложенности папок.
 
-        def cycle_sub_find(self, folders, folders_new):
+         добавляет данные в следующие атрибуты объекта FileObjectsSet
+
+         self.children_names -
+         self.children_container
+         self.folder_list
+        """
+
+        def cycle_sub_find(folders, folders_new):
             temp_children = []
             temp_folders = []
-            for folder in folders:
-                children_of_folder = (os.listdir(folder))
-                for name in children_of_folder:
-                    temp_children.append(F'{folder}/{name}')
+            for curr_folder in folders:
+                curr_children_of_folder = (os.listdir(curr_folder))
+                for cur_name in curr_children_of_folder:
+                    temp_children.append(F'{curr_folder}/{cur_name}')
 
-            for child in temp_children:
-                if os.path.isdir(child):
-                    temp_folders.append(child)
-                    folders_new.append(child)
+            # Перебираем список с путями к файловым объектоам
+            for child_path in temp_children:
+                # Если объект по указанном пути является папкой, то добавляем ее в список
+                if os.path.isdir(child_path):
+                    temp_folders.append(child_path)
+                    folders_new.append(child_path)
 
-            if len(temp_folders) > 0 and self.depth_of_folder < 12:
-               print(self.depth_of_folder)
-               self.depth_of_folder = self.depth_of_folder+1
-               cycle_sub_find(self = self, folders = temp_folders, folders_new = folders_new)
+            if len(temp_folders) > 0 and self.depth_of_folder:
+                print(self.depth_of_folder)
+                self.depth_of_folder = self.depth_of_folder+1
+                # Рекурсивно запускаем функцию внутри самой себя
+                cycle_sub_find(folders=temp_folders, folders_new=folders_new)
 
         # Запускаем рекурсивную функцию поиска папок
-        cycle_sub_find(self, folders = self.folder_list, folders_new = self.folder_list)
+        cycle_sub_find(folders=self.folder_list, folders_new=self.folder_list)
 
-        # По всем найденным папкам ищем файлы и вложенные папки
+        # По всем найденным папкам ищем файловые объекты (под файловыми объектами понимаем как непосредственно файлы,
+        # так и папки как таковые без содержимого)
         all_children = []
         for folder in self.folder_list:
             children_of_folder = (os.listdir(folder))
             for name in children_of_folder:
                 all_children.append(F'{folder}/{name}')
 
-        # Путь к каждому файлу включаем в список и создаем объект, который помещаем в контейнер
+        # Путь к каждому файлу включаем в список и создаем объект, помещаем в контейнер объектов файловой системы
         for abs_path in all_children:
             self.children_names.append(F'{abs_path}')
             self.children_container.append(FileSystemObject(F'{abs_path}'))
 
     def count_ext_types(self):
 
-        def ext_counter(ext_list, self):
-            '''
-            Функция для суммирования колличества файлов с однотипными расширениями
+        def ext_counter(ext_list, parent):
+            """Функция для суммирования колличества файлов с однотипными расширениями
             :param ext_list:
-            :param self:
-            :return: counter
-            '''
+            :param parent:
+            :return counter:
+            """
             counter = 0
             for ext in ext_list:
-                counter += self.ext_list.count(ext.lower())
+                counter += parent.ext_list.count(ext.lower())
             return counter
 
         # С помощью стандартного метода count получаем колличество файлов и папок в атрибуте "type_list"
@@ -231,27 +239,29 @@ class ObjectSet:
         self.voc_types.update({'csv file': ext_counter(csv_ext, self)})
         exe_ext = ['.exe', '.bat']
         self.voc_types.update({'exe file': ext_counter(exe_ext, self)})
-        las_ext = ['.las',]
+        las_ext = ['.las']
         self.voc_types.update({'las file': ext_counter(las_ext, self)})
         dlis_ext = ['.dlis']
         self.voc_types.update({'dlis file': ext_counter(dlis_ext, self)})
 
 
 class FileSystemObject:
-    '''
-    Класс объекта представляющий собой папку или файл (при создании на вход подается
+    """Класс объекта представляющий собой папку или файл (при создании на вход подается
     абсолютный путь по которому находится объект).
     Содержит атрибуты:
     path - абсолютный путь по которому находится объект;
     ext - расширение объекта, в случае папки присваивается расширение '.folder';
     type - тип объекта [file, folder, unknown];
     size - размер объекта (как ведеь себя в случае папки?).
-    '''
+    """
+
     def __init__(self, path):
         self.path = path
+        self.type = 'unknown'
+        self.ext = '.unknown'
 
         # Узнаем размер файла, также проверяем корректность его пути (на длинну)
-        if len(path)>256:
+        if len(path) > 256:
             self.size = 0
             print('Caution!!!! the length of file path more than 256 characters')
         else:
@@ -262,21 +272,17 @@ class FileSystemObject:
         self.type_ext_findout()
 
     def type_ext_findout(self):
-        '''
-        Метод присваивает в атрибуты "type" и "ext" класса значения полученные в результате обработки
+        """Метод присваивает в атрибуты "type" и "ext" класса значения полученные в результате обработки
         абсолютного пути к файлу, возвращает None как результат корректной работы
-        :return: None
-        '''
+        :return: void
+        """
         if os.path.isdir(self.path):
             self.type = 'folder'
             self.ext = '.folder'
         elif os.path.isfile(self.path):
             self.type = 'file'
             self.ext = os.path.splitext(self.path)[1]
-        else:
-            self.type = 'unknown'
-            self.ext = '.unknown'
-        return None
+
 
 def main_application():
     app = QApplication(sys.argv)
@@ -284,5 +290,6 @@ def main_application():
     main.show()
     sys.exit(app.exec_())
 
+
 if __name__ == '__main__':
-   main_application()
+    main_application()
