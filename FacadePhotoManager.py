@@ -38,7 +38,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         :return: void
         """
         dialog_name = 'Please choose some folder to analyse'
-        folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-', None, None)
+        folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-')
         self.lineEdit_for_dir_name.setText(F'{folder_name}/')
 
     def get_file_list_and_stat(self):
