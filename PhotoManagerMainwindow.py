@@ -39,6 +39,9 @@ class Ui_MainWindow(object):
         self.toolButton_load_files = QtWidgets.QToolButton(self.centralwidget)
         self.toolButton_load_files.setObjectName("toolButton_load_files")
         self.horizontalLayout_lower.addWidget(self.toolButton_load_files)
+        self.toolButton_find_figures = QtWidgets.QToolButton(self.centralwidget)
+        self.toolButton_find_figures.setObjectName("toolButton_find_figures")
+        self.horizontalLayout_lower.addWidget(self.toolButton_find_figures)
         self.verticalLayout.addLayout(self.horizontalLayout_lower)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -57,4 +60,5 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.toolButton_choose_dir.setText(_translate("MainWindow", "choose folder"))
         self.toolButton_load_files.setText(_translate("MainWindow", "load files"))
+        self.toolButton_find_figures.setText(_translate("MainWindow", "find figures"))
 

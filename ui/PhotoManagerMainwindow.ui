@@ -48,6 +48,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_find_figures">
+        <property name="text">
+         <string>find figures</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
