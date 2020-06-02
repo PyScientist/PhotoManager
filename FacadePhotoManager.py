@@ -255,30 +255,30 @@ class FigureListDialog(QDialog):
 
         self.setWindowTitle("Visualise figure list")
         self.setModal(True)
-        layout = QVBoxLayout()
-        label = QLabel('The figures list')
-        layout.addWidget(label)
-        list_widget = QListWidget()
+        self.layout = QVBoxLayout()
+        self.label = QLabel('The figures list')
+        self.layout.addWidget(self.label)
+        self.list_widget = QListWidget()
 
         # Put the objects into QListWidget
-        list_widget.clear()
+        self.list_widget.clear()
 
         figures =  filtr_uniq(figures)
 
         for obj in figures:
-            add_element_in_q_list_widget(list_widget, obj)
+            add_element_in_q_list_widget(self.list_widget, obj)
 
-        layout.addWidget(list_widget)
+        self.layout.addWidget(self.list_widget)
 
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
+        self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
+        self.button_box.accepted.connect(self.accept)
+        self.button_box.rejected.connect(self.reject)
 
-        layout.addWidget(button_box)
+        self.layout.addWidget(self.button_box)
 
         self.setFixedSize(700, 900)
 
-        self.setLayout(layout)
+        self.setLayout(self.layout)
 
         self.show()
         if self.exec_() == QDialog.Accepted:
@@ -365,7 +365,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
     def find_figures(self):
-        dialog = FigureListDialog(self.objects_set[0].ext_list)
+        dialog = FigureListDialog(self.objects_set[len(self.objects_set)-1].ext_list)
+
         del dialog
         print('successfully clicked')
 

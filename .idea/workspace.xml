@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fd0e777a-0aca-4f0d-bf55-d1fff098f975" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/PhotoManager.iml" afterPath="$PROJECT_DIR$/.idea/PhotoManager.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FacadePhotoManager.py" afterPath="$PROJECT_DIR$/FacadePhotoManager.py" />
     </list>
@@ -19,13 +17,13 @@
       <file leaf-file-name="FacadePhotoManager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="368" column="12" lean-forward="false" selection-start-line="368" selection-start-column="12" selection-end-line="368" selection-end-column="12" />
+            <state relative-caret-position="395">
+              <caret line="366" column="27" lean-forward="false" selection-start-line="366" selection-start-column="27" selection-end-line="366" selection-end-column="27" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#7739#9157#0" expanded="false" />
-                <element signature="e#10555#10941#0" expanded="false" />
-                <element signature="e#10980#11300#0" expanded="false" />
+                <element signature="e#10630#11016#0" expanded="false" />
+                <element signature="e#11055#11375#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -326,7 +324,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590590664726</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Some enchansment of usability applyed">
+      <created>1591106109666</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1591106109666</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -373,7 +378,8 @@
     <MESSAGE value="Correction of FacadePhotoManager file" />
     <MESSAGE value="Code transform to more clear version to satisfy pep8" />
     <MESSAGE value="Bug remove" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bug remove" />
+    <MESSAGE value="Some enchansment of usability applyed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some enchansment of usability applyed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -389,8 +395,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -402,8 +408,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -415,8 +421,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -428,8 +434,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -457,8 +463,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -484,8 +490,8 @@
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -576,13 +582,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="368" column="12" lean-forward="false" selection-start-line="368" selection-start-column="12" selection-end-line="368" selection-end-column="12" />
+        <state relative-caret-position="395">
+          <caret line="366" column="27" lean-forward="false" selection-start-line="366" selection-start-column="27" selection-end-line="366" selection-end-column="27" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#7739#9157#0" expanded="false" />
-            <element signature="e#10555#10941#0" expanded="false" />
-            <element signature="e#10980#11300#0" expanded="false" />
+            <element signature="e#10630#11016#0" expanded="false" />
+            <element signature="e#11055#11375#0" expanded="false" />
           </folding>
         </state>
       </provider>
