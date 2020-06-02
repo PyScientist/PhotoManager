@@ -1,8 +1,35 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QListWidgetItem, QDialog, QVBoxLayout, QLabel, QDialogButtonBox
+from PyQt5.QtWidgets import QApplication, \
+    QMainWindow, \
+    QFileDialog,\
+    QListWidgetItem, \
+    QListWidget, \
+    QDialog, \
+    QVBoxLayout, \
+    QLabel, \
+    QDialogButtonBox, \
+    QMessageBox
 from PyQt5.QtCore import Qt
 from PhotoManagerMainwindow import Ui_MainWindow
+
+
+def main_application():
+    app = QApplication(sys.argv)
+    main = MainWindow()
+    main.show()
+    sys.exit(app.exec_())
+
+
+def filtr_uniq(spisok):
+    """
+    Получение уникального списка значений поданного на вход массива
+    """
+    spisok_uniq =[]
+    for x in range(0,len(spisok)):
+        if spisok_uniq.count(spisok[x])<1:
+            spisok_uniq.append(spisok[x])
+    return spisok_uniq
 
 
 def add_element_in_q_list_widget(list_widget, element):
@@ -13,109 +40,6 @@ def add_element_in_q_list_widget(list_widget, element):
     item.setCheckState(Qt.Checked)  # Adding "checkbox"  for QListWidgetItem instance and set it checked
     item.setText(element)  # Set text for QListWidgetItem instance
     list_widget.addItem(item)  # Adding QListWidgetItem instance into the QListWidget
-
-
-class ErrorDilog(QDialog):
-    """Class of error dialog
-    inherited from QDialog
-    """
-    def __init__(self, message):
-        super().__init__()
-        self.setWindowTitle("Error dialog")
-        self.setModal(True)
-        layout = QVBoxLayout()
-        label = QLabel(message)
-        layout.addWidget(label)
-        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
-        layout.addWidget(button_box)
-        self.setFixedSize(300, 200)
-        self.setLayout(layout)
-        self.show()
-        if self.exec_() == QDialog.Accepted:
-            self.result = 'True'
-        elif self.exec_() == QDialog.Rejected:
-            self.result = 'False'
-
-class MainWindow(QMainWindow, Ui_MainWindow):
-    """Class of application main window with methods of data processing
-    """
-    def __init__(self):
-        super().__init__()
-        self.setupUi(self)
-        # Launch adjustments for Application widgets
-        self.adjust_widgets()
-        self.objects_set = []
-
-    def adjust_widgets(self):
-        """Method adjusts work of Application main window widgets
-        :return: void
-        """
-        self.toolButton_choose_dir.clicked.connect(self.folder_dialog)
-        self.toolButton_load_files.clicked.connect(self.get_file_list_and_stat)
-        self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
-
-        self.toolButton_find_figures.clicked.connect(self.find_figures)
-
-    def folder_dialog(self):
-        """Method calls dialog for path to directory which need to analyse choosing
-        :return: void
-        """
-        dialog_name = 'Please choose some folder to analyse'
-        folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-')
-        self.lineEdit_for_dir_name.setText(F'{folder_name}/')
-
-    def get_file_list_and_stat(self):
-        """Method launches the processing, puts list of objects of selected directory in QListWidget, puts results of
-        analysis into QTextEdit widget
-        :return: void
-        """
-        try:
-            file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text())
-        except Exception:
-            if len(self.lineEdit_for_dir_name.text())==0:
-               ErrorDilog('File path is empty, please enter correct path to folder')
-            else:
-               print('Error while creation of objects set')
-
-            file_objects_set = 'Error!'
-
-        # If the file_object_set instance was created successfully perform next action
-        if file_objects_set != 'Error!':
-            print('here')
-            self.objects_set.append(file_objects_set)
-
-            # Put the list of file-system objects into QListWidget
-            self.listWidget_for_files.clear()
-            for file in file_objects_set.children_names:
-                add_element_in_q_list_widget(self.listWidget_for_files, file)
-
-            # Print the results of analysis into QTextEdit widget
-
-            self.textEdit_for_report.setText('')
-            self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
-            self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
-                                            F'файла и {file_objects_set.voc_types["folder"]} папки')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pict. file"]} файла рисунка')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pdf file"]} файла pdf')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["txt file"]} файла txt')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["csv file"]} файла csv')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["exe file"]} файла exe')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["las file"]} файла las')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["dlis file"]} файла dlis')
-            self.textEdit_for_report.append(F'минимальный размер файла: {min(file_objects_set.size_list)/1048576} МБ')
-            self.textEdit_for_report.append(F'максимальный размер файла: {max(file_objects_set.size_list)/1048576} МБ')
-            self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size/1048576} МБ')
-            self.textEdit_for_report.append(F'Глубина вложенности: {file_objects_set.depth_of_folder}')
-
-            print(file_objects_set.search_subfolders_and_files_in_them.__doc__)
-
-    def find_figures(self):
-        print('sucssesfully clicked')
 
 
 class FileObjectsSet:
@@ -219,8 +143,8 @@ class FileObjectsSet:
                     temp_folders.append(child_path)
                     folders_new.append(child_path)
 
-            if len(temp_folders) > 0 and self.depth_of_folder:
-                print(self.depth_of_folder)
+            # Если после просмотра есть вложенные папки и глубина просмотра менее 100, рекурсивно запускаем функцию
+            if len(temp_folders) > 0 and self.depth_of_folder < 100:
                 self.depth_of_folder = self.depth_of_folder+1
                 # Рекурсивно запускаем функцию внутри самой себя
                 cycle_sub_find(folders=temp_folders, folders_new=folders_new)
@@ -322,11 +246,128 @@ class FileSystemObject:
             self.ext = os.path.splitext(self.path)[1]
 
 
-def main_application():
-    app = QApplication(sys.argv)
-    main = MainWindow()
-    main.show()
-    sys.exit(app.exec_())
+class FigureListDialog(QDialog):
+    """Class of dialog which sows figure list
+    inherited from QDialog
+    """
+    def __init__(self, figures):
+        super().__init__()
+
+        self.setWindowTitle("Visualise figure list")
+        self.setModal(True)
+        layout = QVBoxLayout()
+        label = QLabel('The figures list')
+        layout.addWidget(label)
+        list_widget = QListWidget()
+
+        # Put the objects into QListWidget
+        list_widget.clear()
+
+        figures =  filtr_uniq(figures)
+
+        for obj in figures:
+            add_element_in_q_list_widget(list_widget, obj)
+
+        layout.addWidget(list_widget)
+
+        button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
+        button_box.accepted.connect(self.accept)
+        button_box.rejected.connect(self.reject)
+
+        layout.addWidget(button_box)
+
+        self.setFixedSize(700, 900)
+
+        self.setLayout(layout)
+
+        self.show()
+        if self.exec_() == QDialog.Accepted:
+            self.result = 'Оk'
+
+class MainWindow(QMainWindow, Ui_MainWindow):
+    """Class of application main window with methods of data processing
+    """
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        # Launch adjustments for Application widgets
+        self.adjust_widgets()
+        self.objects_set = []
+
+    def adjust_widgets(self):
+        """Method adjusts work of Application main window widgets
+        :return: void
+        """
+        self.toolButton_choose_dir.clicked.connect(self.folder_dialog)
+        self.toolButton_load_files.clicked.connect(self.get_file_list_and_stat)
+        self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
+
+        self.toolButton_find_figures.clicked.connect(self.find_figures)
+
+    def folder_dialog(self):
+        """Method calls dialog for path to directory which need to analyse choosing
+        :return: void
+        """
+        dialog_name = 'Please choose some folder to analyse'
+        folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-')
+        self.lineEdit_for_dir_name.setText(F'{folder_name}/')
+
+    def get_file_list_and_stat(self):
+        """Method launches the processing, puts list of objects of selected directory in QListWidget, puts results of
+        analysis into QTextEdit widget
+        :return: void
+        """
+
+        # Processing exceptions while object creation (FileObjectsSet)
+        try:
+            file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text())
+            file_objects_set_validate = 'Created'
+        except Exception:
+            if len(self.lineEdit_for_dir_name.text())==0:
+                QMessageBox.warning(self, "Warning", "File path is empty, please enter correct path to folder", QMessageBox.Ok)
+            else:
+                QMessageBox.warning(self, "Warning", "Something going wrong",QMessageBox.Ok)
+            file_objects_set_validate = 'Error!'
+
+        # If the (FileObjectsSet) instance was created successfully perform next action
+        if file_objects_set_validate == 'Error!':
+            QMessageBox.warning(self, "Warning", "The FileObjectsSet instance was not created", QMessageBox.Ok)
+        else:
+            self.objects_set.append(file_objects_set)
+
+
+            # Put the list of file-system objects into QListWidget
+            self.listWidget_for_files.clear()
+            for file in file_objects_set.children_names:
+                add_element_in_q_list_widget(self.listWidget_for_files, file)
+
+            # Print the results of analysis into QTextEdit widget
+
+            self.textEdit_for_report.setText('')
+            self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
+            self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
+                                            F'файла и {file_objects_set.voc_types["folder"]} папки')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pict. file"]} файла рисунка')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pdf file"]} файла pdf')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["txt file"]} файла txt')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["csv file"]} файла csv')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["exe file"]} файла exe')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["las file"]} файла las')
+            self.textEdit_for_report.append(F'{file_objects_set.voc_types["dlis file"]} файла dlis')
+            self.textEdit_for_report.append(F'минимальный размер файла: {min(file_objects_set.size_list)/1048576} МБ')
+            self.textEdit_for_report.append(F'максимальный размер файла: {max(file_objects_set.size_list)/1048576} МБ')
+            self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size/1048576} МБ')
+            self.textEdit_for_report.append(F'Глубина вложенности: {file_objects_set.depth_of_folder}')
+
+
+
+    def find_figures(self):
+        dialog = FigureListDialog(self.objects_set[0].ext_list)
+        del dialog
+        print('successfully clicked')
 
 
 if __name__ == '__main__':
