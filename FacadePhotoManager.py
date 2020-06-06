@@ -25,9 +25,9 @@ def filtr_uniq(spisok):
     """
     Получение уникального списка значений поданного на вход массива
     """
-    spisok_uniq =[]
-    for x in range(0,len(spisok)):
-        if spisok_uniq.count(spisok[x])<1:
+    spisok_uniq = []
+    for x in range(0, len(spisok)):
+        if spisok_uniq.count(spisok[x]) < 1:
             spisok_uniq.append(spisok[x])
     return spisok_uniq
 
@@ -263,7 +263,7 @@ class FigureListDialog(QDialog):
         # Put the objects into QListWidget
         self.list_widget.clear()
 
-        figures =  filtr_uniq(figures)
+        figures = filtr_uniq(figures)
 
         for obj in figures:
             add_element_in_q_list_widget(self.list_widget, obj)
@@ -323,10 +323,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text())
             file_objects_set_validate = 'Created'
         except Exception:
-            if len(self.lineEdit_for_dir_name.text())==0:
-                QMessageBox.warning(self, "Warning", "File path is empty, please enter correct path to folder", QMessageBox.Ok)
+            if len(self.lineEdit_for_dir_name.text()) == 0:
+                QMessageBox.warning(self, "Warning", "File path is empty, please enter correct path to folder",
+                                    QMessageBox.Ok)
             else:
-                QMessageBox.warning(self, "Warning", "Something going wrong",QMessageBox.Ok)
+                QMessageBox.warning(self, "Warning", "Something going wrong", QMessageBox.Ok)
             file_objects_set_validate = 'Error!'
 
         # If the (FileObjectsSet) instance was created successfully perform next action
@@ -334,7 +335,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             QMessageBox.warning(self, "Warning", "The FileObjectsSet instance was not created", QMessageBox.Ok)
         else:
             self.objects_set.append(file_objects_set)
-
 
             # Put the list of file-system objects into QListWidget
             self.listWidget_for_files.clear()
@@ -361,8 +361,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.textEdit_for_report.append(F'максимальный размер файла: {max(file_objects_set.size_list)/1048576} МБ')
             self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size/1048576} МБ')
             self.textEdit_for_report.append(F'Глубина вложенности: {file_objects_set.depth_of_folder}')
-
-
 
     def find_figures(self):
         dialog = FigureListDialog(self.objects_set[len(self.objects_set)-1].ext_list)
