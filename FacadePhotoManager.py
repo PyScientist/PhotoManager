@@ -15,15 +15,16 @@ from PhotoManagerMainwindow import Ui_MainWindow
 
 
 def main_application():
+    '''Entry point for program
+    '''
     app = QApplication(sys.argv)
     main = MainWindow()
     main.show()
     sys.exit(app.exec_())
 
 
-def filtr_uniq(spisok):
-    """
-    Получение уникального списка значений поданного на вход массива
+def filter_unique(spisok):
+    """Get unique values from list
     """
     spisok_uniq = []
     for x in range(0, len(spisok)):
@@ -43,10 +44,11 @@ def add_element_in_q_list_widget(list_widget, element):
 
 
 class FileObjectsSet:
-    """Класс набора объектов (файлов и папок) имеет путь папки, который передается ему при инстанцировании
+    """Class of file-system objects set (files and folders) have a folder path, which have given to him while initialization
     """
     def __init__(self, path):
         self.name = 'unknown'
+        # set main folder path
         self.path = path
         self.children_names = []
         self.children_container = []
@@ -59,7 +61,7 @@ class FileObjectsSet:
         self.voc_types = {}
         self.depth_of_folder = 0
 
-        # Вызываемм методы формирующщие экземпляр класса
+        # Call methods forming attributes of instance
         self.children()
         self.exts()
         self.types()
@@ -76,12 +78,16 @@ class FileObjectsSet:
         self.count_ext_types()
 
     def children(self):
+        '''Searching for file objects inside main folder
+        '''
         self.children_names = []
-        for name in os.listdir(self.path):
-            self.children_names.append(F'{self.path}{name}')
         self.children_container = []
-        for obj in os.listdir(self.path):
-            self.children_container.append(FileSystemObject(F'{self.path}{obj}'))
+        for name in os.listdir(self.path): #pass through all objects in main folder
+            if os.path.exists(F'{self.path}{name}'):
+              self.children_names.append(F'{self.path}{name}') #add path to file object in "children_names" attribute
+              self.children_container.append(FileSystemObject(F'{self.path}{name}')) #Create instance and add it to container
+            else: QMessageBox.warning(self, "Warning", F'incorrect path to file or  folder {self.path}{name}', QMessageBox.Ok)
+
 
     def exts(self):
         self.ext_list = []
@@ -263,7 +269,7 @@ class FigureListDialog(QDialog):
         # Put the objects into QListWidget
         self.list_widget.clear()
 
-        figures = filtr_uniq(figures)
+        figures = filter_unique(figures)
 
         for obj in figures:
             add_element_in_q_list_widget(self.list_widget, obj)
@@ -301,6 +307,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.toolButton_choose_dir.clicked.connect(self.folder_dialog)
         self.toolButton_load_files.clicked.connect(self.get_file_list_and_stat)
         self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
+        self.lineEdit_for_dir_name.setText('./')
 
         self.toolButton_find_figures.clicked.connect(self.find_figures)
 
