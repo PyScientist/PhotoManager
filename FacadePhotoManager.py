@@ -44,50 +44,66 @@ def add_element_in_q_list_widget(list_widget, element):
 
 
 class FileObjectsSet:
-    """Class of file-system objects set (files and folders) have a folder path, which have given to him while initialization
+    """Class of file-system objects set (files and folders) have a folder path,
+     which have given to him while initialization
     """
-    def __init__(self, path):
+    def __init__(self, path, parent):
         self.name = 'unknown'
-        # set main folder path
-        self.path = path
-        self.children_names = []
-        self.children_container = []
-        self.folder_list = []
+        self.path = path  # Set main folder path attribute
+        self.parent = parent  # Set main window link attribute
+        self.children_names = []  # This container will include absolute paths
+        self.children_container = []  # This container will include objects (instance of FileSystemObject)
+        self.folder_list = []  # This container will include paths to folders
         self.ext_list = []
         self.type_list = []
         self.size_list = []
         self.full_size = 0
         self.date_list = []
         self.voc_types = {}
-        self.depth_of_folder = 0
+        self.depth_of_folder = 0  # Set the depth of nesting
 
-        # Call methods forming attributes of instance
+        # Call methods forming attributes of instance for first level of folder
         self.children()
         self.exts()
         self.types()
 
-        self.create_folder_list()
+        # Call method for forming full list of files and folders
+        self.create_initial_folder_list()
         self.search_subfolders_and_files_in_them()
 
+        # Call methods forming attributes of instance for rest of the levels of folder
         self.exts()
         self.types()
         self.sizes()
         self.dates()
         self.summ_size()
 
+        # Count of files with different extensions
         self.count_ext_types()
 
+        # Perform quality control of prepared object
+        self.quality_control()
+
+    def quality_control(self):
+        array = [self.children_names, self.children_container, self.ext_list, self.type_list, self.size_list, self.date_list]
+
+        for x in range(len(array)):
+            if len(array[x]) == len(array[0]):
+                print('prepared nice object The quantity of elements match')
+            else:
+                QMessageBox.warning(self.parent, "Warning", "Something wrong with length of lists",QMessageBox.Ok)
+
     def children(self):
-        '''Searching for file objects inside main folder
-        '''
+        """Searching for file objects inside main folder"""
         self.children_names = []
         self.children_container = []
         for name in os.listdir(self.path): #pass through all objects in main folder
-            if os.path.exists(F'{self.path}{name}'):
-              self.children_names.append(F'{self.path}{name}') #add path to file object in "children_names" attribute
-              self.children_container.append(FileSystemObject(F'{self.path}{name}')) #Create instance and add it to container
-            else: QMessageBox.warning(self, "Warning", F'incorrect path to file or  folder {self.path}{name}', QMessageBox.Ok)
-
+            if os.path.exists(F'{self.path}{name}')==True:
+                self.children_names.append(F'{self.path}{name}') #add path to file object in "children_names" attribute
+                self.children_container.append(FileSystemObject(F'{self.path}{name}')) #Create instance and add it to container
+            else:
+                # Show warning message if the incorrect path observed
+                QMessageBox.warning(self.parent, "Warning", F"incorrect path to file or folder {self.path}{name}", QMessageBox.Ok)
 
     def exts(self):
         self.ext_list = []
@@ -116,7 +132,8 @@ class FileObjectsSet:
             summ += size
         self.full_size = summ
 
-    def create_folder_list(self):
+    def create_initial_folder_list(self):
+        """Create a folder list"""
         self.folder_list = []
         for obj in self.children_container:
             if obj.type == 'folder':
@@ -127,7 +144,7 @@ class FileObjectsSet:
          атрибуты объекта дополняются в соответствии с содержащимися в подпапках файловыми объектами
          , оценивается уровень вложенности папок.
 
-         добавляет данные в следующие атрибуты объекта FileObjectsSet
+         Add data in following attributes of object FileObjectsSet
 
          self.children_names -
          self.children_container
@@ -142,20 +159,21 @@ class FileObjectsSet:
                 for cur_name in curr_children_of_folder:
                     temp_children.append(F'{curr_folder}/{cur_name}')
 
-            # Перебираем список с путями к файловым объектоам
+            # Going through the list with paths to file objects
             for child_path in temp_children:
-                # Если объект по указанном пути является папкой, то добавляем ее в список
+                # If the object on the specified path is a folder, then add it to the list
                 if os.path.isdir(child_path):
                     temp_folders.append(child_path)
                     folders_new.append(child_path)
 
-            # Если после просмотра есть вложенные папки и глубина просмотра менее 100, рекурсивно запускаем функцию
+            # If after viewing there are subfolders exists and the
+            #  viewing depth is less than 100, recursively launch the function
             if len(temp_folders) > 0 and self.depth_of_folder < 100:
                 self.depth_of_folder = self.depth_of_folder+1
-                # Рекурсивно запускаем функцию внутри самой себя
+                # Recursively running the function inside itself
                 cycle_sub_find(folders=temp_folders, folders_new=folders_new)
 
-        # Запускаем рекурсивную функцию поиска папок
+        # Running the recursive folder search function
         cycle_sub_find(folders=self.folder_list, folders_new=self.folder_list)
 
         # По всем найденным папкам ищем файловые объекты (под файловыми объектами понимаем как непосредственно файлы,
@@ -327,7 +345,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Processing exceptions while object creation (FileObjectsSet)
         try:
-            file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text())
+            file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text(), self)
             file_objects_set_validate = 'Created'
         except Exception:
             if len(self.lineEdit_for_dir_name.text()) == 0:
