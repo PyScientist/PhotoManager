@@ -1,5 +1,6 @@
 import sys
 import os
+import time
 from PyQt5.QtWidgets import QApplication, \
     QMainWindow, \
     QFileDialog,\
@@ -15,8 +16,7 @@ from PhotoManagerMainwindow import Ui_MainWindow
 
 
 def main_application():
-    '''Entry point for program
-    '''
+    """Entry point for program"""
     app = QApplication(sys.argv)
     main = MainWindow()
     main.show()
@@ -38,32 +38,35 @@ def add_element_in_q_list_widget(list_widget, element):
     "item" and "QListWidget" instance where it is need to add "item"
     """
     item = QListWidgetItem()  # Create instance of list item for QListWidget
-    item.setCheckState(Qt.Checked)  # Adding "checkbox"  for QListWidgetItem instance and set it checked
     item.setText(element)  # Set text for QListWidgetItem instance
     list_widget.addItem(item)  # Adding QListWidgetItem instance into the QListWidget
 
 
 class FileObjectsSet:
     """Class of file-system objects set (files and folders) have a folder path,
-     which have given to him while initialization
-    """
+     which have given to him while initialization by this path all objects inside collecting
+     There is also link to aplication main window provided while instating"""
     def __init__(self, path, parent):
         self.name = 'unknown'
         self.path = path  # Set main folder path attribute
         self.parent = parent  # Set main window link attribute
         self.children_names = []  # This container will include absolute paths
         self.children_container = []  # This container will include objects (instance of FileSystemObject)
-        self.folder_list = []  # This container will include paths to folders
+        self.folder_path_list = []  # This container will include paths to folders
         self.ext_list = []
         self.type_list = []
         self.size_list = []
         self.full_size = 0
+        self.avg_size = None
+        self.size_minimal = None
+        self.size_maximal = None
         self.date_list = []
         self.voc_types = {}
         self.depth_of_folder = 0  # Set the depth of nesting
 
         # Call methods forming attributes of instance for first level of folder
         self.children()
+
         self.exts()
         self.types()
 
@@ -76,29 +79,50 @@ class FileObjectsSet:
         self.types()
         self.sizes()
         self.dates()
-        self.summ_size()
+        self.get_sizes()
 
-        # Count of files with different extensions
+        # Count files with different extensions
         self.count_ext_types()
 
-        # Perform quality control of prepared object
+        # Perform quality control for self
         self.quality_control()
 
     def quality_control(self):
-        array = [self.children_names, self.children_container, self.ext_list, self.type_list, self.size_list, self.date_list]
+        """Method for quality control of prepared self"""
 
-        for x in range(len(array)):
-            if len(array[x]) == len(array[0]):
-                print('prepared nice object The quantity of elements match')
-            else:
-                QMessageBox.warning(self.parent, "Warning", "Something wrong with length of lists",QMessageBox.Ok)
+        # Prepare dictionaries with links to list with file objects parameters
+        dict = {'children_name': self.children_names,
+                'children_container': self.children_container,
+                'ext_list': self.ext_list,
+                'type_list': self.type_list,
+                'size_list': self.size_list,
+                'date_list': self.date_list}
+
+        error = False  # initially set error flag to False
+        error_count = 0  # counter for possible errors
+        error_list = []  # list for possible error message
+
+        for key in dict:
+            if len(dict['children_container']) != len(dict[key]):
+                error = True
+                error_count += 1
+                error_list.append(F'Something wrong with length of list {[key]}')
+        if error:
+            QMessageBox.warning(self.parent,
+                                "Warning",
+                                str(error_list),
+                                QMessageBox.Ok,
+                                QMessageBox.Ok)
+        else:
+            print('prepared nice object! The quantity of elements of list within object matches to each other')
 
     def children(self):
+
         """Searching for file objects inside main folder"""
         self.children_names = []
         self.children_container = []
         for name in os.listdir(self.path): #pass through all objects in main folder
-            if os.path.exists(F'{self.path}{name}')==True:
+            if os.path.exists(F'{self.path}{name}'):
                 self.children_names.append(F'{self.path}{name}') #add path to file object in "children_names" attribute
                 self.children_container.append(FileSystemObject(F'{self.path}{name}')) #Create instance and add it to container
             else:
@@ -106,38 +130,59 @@ class FileObjectsSet:
                 QMessageBox.warning(self.parent, "Warning", F"incorrect path to file or folder {self.path}{name}", QMessageBox.Ok)
 
     def exts(self):
+        """Extension list creation according objects in "children_container" attribute"""
         self.ext_list = []
         for obj in self.children_container:
             self.ext_list.append(obj.ext)
 
     def types(self):
+        """Types list creation according objects in "children_container" attribute"""
         self.type_list = []
         for obj in self.children_container:
             self.type_list.append(obj.type)
 
     def sizes(self):
+        """Types list creation according objects in "children_container" attribute"""
         self.size_list = []
         for obj in self.children_container:
             self.size_list.append(obj.size)
 
     def dates(self):
+        """Dates of creation list creation according objects in "children_container" attribute"""
         self.date_list = []
         for obj in self.children_container:
             self.date_list.append(obj.date)
+        print(self.date_list)
 
-    def summ_size(self):
-        summ = 0
-
+    def get_sizes(self):
+        """Calculate full, minimal and maximal sizes of files"""
+        sum = 0
+        count = 0
+        # Calculate full size of files
         for size in self.size_list:
-            summ += size
-        self.full_size = summ
+            if size is not None:
+                sum += size
+                count += 1
+        self.full_size = sum/1048576
+        self.avg_size = (sum/1048576)/count
+
+        # Calculate minimal and maximal size of files
+        sizes = list(self.size_list)
+        for x in range(sizes.count(None)):
+            try:
+                sizes.remove(None)
+            except:
+                pass
+        self.size_maximal = max(sizes)/1048576
+        self.size_minimal = min(sizes)/1048576
+        del sizes
 
     def create_initial_folder_list(self):
         """Create a folder list"""
-        self.folder_list = []
+        self.folder_path_list = []
         for obj in self.children_container:
             if obj.type == 'folder':
-                self.folder_list.append(obj.path)
+                self.folder_path_list.append(obj.path)
 
     def search_subfolders_and_files_in_them(self):
         """Метод выполняющий поиск в подпапках основной папки, по результатам работы
@@ -174,12 +219,12 @@ class FileObjectsSet:
                 cycle_sub_find(folders=temp_folders, folders_new=folders_new)
 
         # Running the recursive folder search function
-        cycle_sub_find(folders=self.folder_list, folders_new=self.folder_list)
+        cycle_sub_find(folders=self.folder_path_list, folders_new=self.folder_path_list)
 
         # По всем найденным папкам ищем файловые объекты (под файловыми объектами понимаем как непосредственно файлы,
         # так и папки как таковые без содержимого)
         all_children = []
-        for folder in self.folder_list:
+        for folder in self.folder_path_list:
             children_of_folder = (os.listdir(folder))
             for name in children_of_folder:
                 all_children.append(F'{folder}/{name}')
@@ -246,20 +291,28 @@ class FileSystemObject:
         self.type = 'unknown'
         self.ext = '.unknown'
 
-        # Узнаем размер файла, также проверяем корректность его пути (на длинну)
+
+        # Check the correctness of its path (by length <= 256) then find out the file object size if it is not folder,
         if len(path) > 256:
-            self.size = 0
+            self.size = None
             print('Caution!!!! the length of file path more than 256 characters')
         else:
-            self.size = os.path.getsize(self.path)
+            if os.path.isfile(self.path):
+                self.size = os.path.getsize(self.path)  # if it is file get the size in bites
+            else:
+                self.size = None  # if it is folder set size to zero
+
+        # Set date to initialy date
         self.date = ''
 
         # Вызываем метод с помощью которого получаем тип и расширение
-        self.type_ext_findout()
+        self.get_type_ext_findout()
+        # Вызываем метод с помощью которого получаем время последнего доступа к файлу
+        self.get_date()
 
-    def type_ext_findout(self):
-        """Метод присваивает в атрибуты "type" и "ext" класса значения полученные в результате обработки
-        абсолютного пути к файлу, возвращает None как результат корректной работы
+    def get_type_ext_findout(self):
+        """The method assigns to attributes "type" and "ext" the values have been obtained as a result of processing
+        absolute path to the file
         :return: void
         """
         if os.path.isdir(self.path):
@@ -268,6 +321,20 @@ class FileSystemObject:
         elif os.path.isfile(self.path):
             self.type = 'file'
             self.ext = os.path.splitext(self.path)[1]
+
+    def get_date(self):
+        """The method assigns to attributes "date" the values have been obtained as a result of processing
+        absolute path to the file
+        :return: void
+        """
+        self.date = os.stat(self.path).st_mtime
+        # print(time.ctime(os.stat(self.path).st_mtime))
+        '''Выполните системный вызов stat () по данному пути. Возвращаемое значение - это объект, атрибуты 
+        которого соответствуют членам структуры stat, а именно: st_mode (бит защиты), st_ino (номер inode),
+        st_dev (устройство), st_nlink (количество жестких ссылок), st_uid (идентификатор пользователя владельца ), 
+        st_gid (идентификатор группы владельца), st_size (размер файла, в байтах), st_atime (время последнего доступа),
+        st_mtime (время последней модификации контента), st_ctime (зависит от платформы, время изменения последних метаданных
+        в Unix или время создания в Windows):'''
 
 
 class FigureListDialog(QDialog):
@@ -308,6 +375,7 @@ class FigureListDialog(QDialog):
         if self.exec_() == QDialog.Accepted:
             self.result = 'Оk'
 
+
 class MainWindow(QMainWindow, Ui_MainWindow):
     """Class of application main window with methods of data processing
     """
@@ -315,17 +383,25 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         # Launch adjustments for Application widgets
+        self.set_to_print = 0
         self.adjust_widgets()
-        self.objects_set = []
+        self.objects_sets_container = []  # Container for objects sets
 
     def adjust_widgets(self):
         """Method adjusts work of Application main window widgets
         :return: void
         """
-        self.toolButton_choose_dir.clicked.connect(self.folder_dialog)
-        self.toolButton_load_files.clicked.connect(self.get_file_list_and_stat)
+        self.toolButton_choose_dir.clicked.connect(self.folder_dialog)  # Button to choose path to folder
+        self.toolButton_create_files_set_object.clicked.connect(self.create_objects_set)  # Button to obtain file set
+        self.toolButton_plot_files_set_object.clicked.connect(self.put_file_list_and_stat)  # Button to plot stat
+
+        self.spinBox_of_file_object.setValue(self.set_to_print)
+        self.spinBox_of_file_object.valueChanged.connect(self.spinBox_of_file_object_value_changed)
+
+
         self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
         self.lineEdit_for_dir_name.setText('./')
+        # self.lineEdit_for_dir_name.setText('Z:/GeolResearch/_INTERNAL_/Отдел ОПМ/+Geolog Projects/West_Qurna-2/')
 
         self.toolButton_find_figures.clicked.connect(self.find_figures)
 
@@ -337,12 +413,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         folder_name = QFileDialog.getExistingDirectory(QFileDialog(), dialog_name, '-')
         self.lineEdit_for_dir_name.setText(F'{folder_name}/')
 
-    def get_file_list_and_stat(self):
-        """Method launches the processing, puts list of objects of selected directory in QListWidget, puts results of
-        analysis into QTextEdit widget
-        :return: void
-        """
-
+    def create_objects_set(self):
+        """Method for set of objects creation"""
         # Processing exceptions while object creation (FileObjectsSet)
         try:
             file_objects_set = FileObjectsSet(self.lineEdit_for_dir_name.text(), self)
@@ -359,37 +431,54 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if file_objects_set_validate == 'Error!':
             QMessageBox.warning(self, "Warning", "The FileObjectsSet instance was not created", QMessageBox.Ok)
         else:
-            self.objects_set.append(file_objects_set)
+            self.objects_sets_container.append(file_objects_set)
 
-            # Put the list of file-system objects into QListWidget
-            self.listWidget_for_files.clear()
-            for file in file_objects_set.children_names:
-                add_element_in_q_list_widget(self.listWidget_for_files, file)
+    def put_file_list_and_stat(self):
+        """Method launches the processing, puts list of objects of selected directory in QListWidget, puts results of
+        analysis into QTextEdit widget
+        :return: void
+        """
+        file_objects_set = self.objects_sets_container[self.set_to_print]
 
-            # Print the results of analysis into QTextEdit widget
+        # Put the list of file-system objects into QListWidget
+        self.listWidget_for_files.clear()
+        for file in file_objects_set.children_names:
+            add_element_in_q_list_widget(self.listWidget_for_files, file)
 
-            self.textEdit_for_report.setText('')
-            self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
-            self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
-                                            F'файла и {file_objects_set.voc_types["folder"]} папки')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pict. file"]} файла рисунка')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["pdf file"]} файла pdf')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["txt file"]} файла txt')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["csv file"]} файла csv')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["exe file"]} файла exe')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["las file"]} файла las')
-            self.textEdit_for_report.append(F'{file_objects_set.voc_types["dlis file"]} файла dlis')
-            self.textEdit_for_report.append(F'минимальный размер файла: {min(file_objects_set.size_list)/1048576} МБ')
-            self.textEdit_for_report.append(F'максимальный размер файла: {max(file_objects_set.size_list)/1048576} МБ')
-            self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size/1048576} МБ')
-            self.textEdit_for_report.append(F'Глубина вложенности: {file_objects_set.depth_of_folder}')
+        # Print the results of analysis into QTextEdit widget
+        self.textEdit_for_report.setText('')
+        self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
+        self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
+                                        F'файла и {file_objects_set.voc_types["folder"]} папки')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["pict. file"]} файла рисунка')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["pdf file"]} файла pdf')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["txt file"]} файла txt')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["csv file"]} файла csv')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["exe file"]} файла exe')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["las file"]} файла las')
+        self.textEdit_for_report.append(F'{file_objects_set.voc_types["dlis file"]} файла dlis')
+        self.textEdit_for_report.append(F'минимальный размер файла: {file_objects_set.size_minimal} МБ')
+        self.textEdit_for_report.append(F'максимальный размер файла: {file_objects_set.size_maximal} МБ')
+        self.textEdit_for_report.append(F'суммарный размер файлов: {file_objects_set.full_size} МБ')
+        self.textEdit_for_report.append(F'средний размер файла: {file_objects_set.avg_size} МБ')
+        self.textEdit_for_report.append(F'Глубина вложенности папок: {file_objects_set.depth_of_folder}')
+
+    def spinBox_of_file_object_value_changed(self):
+        self.set_to_print = self.spinBox_of_file_object.value()
+        if self.set_to_print > len(self.objects_sets_container)-1:
+           self.spinBox_of_file_object.setValue(len(self.objects_sets_container)-1)
+        print(self.set_to_print)
 
     def find_figures(self):
-        dialog = FigureListDialog(self.objects_set[len(self.objects_set)-1].ext_list)
+        file_objects_set = self.objects_sets_container[self.set_to_print]
 
+
+
+
+        dialog = FigureListDialog(file_objects_set.ext_list)
         del dialog
         print('successfully clicked')
 

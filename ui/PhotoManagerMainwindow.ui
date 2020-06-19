@@ -42,9 +42,26 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_lower">
       <item>
-       <widget class="QToolButton" name="toolButton_load_files">
+       <widget class="QToolButton" name="toolButton_create_files_set_object">
         <property name="text">
-         <string>load files</string>
+         <string>Create files set object</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton_plot_files_set_object">
+        <property name="text">
+         <string>plot files set object</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBox_of_file_object">
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
         </property>
        </widget>
       </item>
