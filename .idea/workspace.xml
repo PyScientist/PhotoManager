@@ -1,33 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BranchesTreeState">
-    <expand>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-      <path>
-        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
-        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
-      </path>
-    </expand>
-    <select />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd0e777a-0aca-4f0d-bf55-d1fff098f975" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/PhotoManager.iml" afterPath="$PROJECT_DIR$/.idea/PhotoManager.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FacadePhotoManager.py" afterPath="$PROJECT_DIR$/FacadePhotoManager.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/PhotoManagerMainwindow.py" afterPath="$PROJECT_DIR$/PhotoManagerMainwindow.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ui/PhotoManagerMainwindow.ui" afterPath="$PROJECT_DIR$/ui/PhotoManagerMainwindow.ui" />
+    <list default="true" id="fd0e777a-0aca-4f0d-bf55-d1fff098f975" name="Default" comment="Some quakity control added">
+      <change beforePath="$PROJECT_DIR$/.idea/PhotoManager.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PhotoManager.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FacadePhotoManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/FacadePhotoManager.py" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -40,14 +19,23 @@
       <file leaf-file-name="FacadePhotoManager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="278" column="23" lean-forward="false" selection-start-line="278" selection-start-column="23" selection-end-line="278" selection-end-column="23" />
+            <state relative-caret-position="196">
+              <caret line="211" column="26" selection-start-line="211" selection-start-column="26" selection-end-line="211" selection-end-column="26" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#351#479#0" expanded="false" />
-                <element signature="e#513#718#0" expanded="false" />
-                <element signature="e#11239#13922#0" expanded="false" />
-                <element signature="e#13962#15039#0" expanded="false" />
+                <element signature="e#513#718#0" />
+                <element signature="e#781#1157#0" />
+                <element signature="e#2911#4122#0" />
+                <element signature="e#4157#4882#0" />
+                <element signature="e#4912#5106#0" />
+                <element signature="e#5137#5330#0" />
+                <element signature="e#5361#5554#0" />
+                <element signature="e#5585#5820#0" />
+                <element signature="e#5855#6529#0" />
+                <element signature="e#6581#6778#0" />
+                <element signature="e#9220#11208#0" />
+                <element signature="e#11239#13922#0" />
+                <element signature="e#13962#15039#0" />
               </folding>
             </state>
           </provider>
@@ -65,11 +53,9 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>Dialog</find>
-      <find>filte</find>
-      <find>QMessageBox</find>
-      <find>folder_path_list</find>
       <find>print</find>
-      <find>self.objects_set</find>
+      <find>QMessageBox</find>
+      <find>create_folder_list</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -79,17 +65,18 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/Facade_file_manager.py" />
+        <option value="$PROJECT_DIR$/../CoreElectroAnalysis/ui/CoreElectroAnalysisMainWindow_conversion.bat" />
+        <option value="$PROJECT_DIR$/ui/PhotoManagerMainWindow_conversion.bat" />
         <option value="$PROJECT_DIR$/FacadePhotoManager.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="1517" />
-    <option name="y" value="-11" />
-    <option name="width" value="1623" />
-    <option name="height" value="1066" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="width" value="1357" />
+    <option name="height" value="735" />
   </component>
-  <component name="ProjectId" id="1cwtWQBPxIf2ogoPfnSLA7fhHH9" />
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
       <profile-state>
@@ -107,21 +94,10 @@
     </entry>
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -140,19 +116,19 @@
               <item name="PhotoManager" type="462c0819:PsiDirectoryNode" />
               <item name="ui" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="PhotoManager" type="b2602c69:ProjectViewProjectNode" />
+              <item name="PhotoManager" type="462c0819:PsiDirectoryNode" />
+              <item name="FacadePhotoManager.py" type="8704e2dd:PyFileNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
     </panes>
   </component>
-  <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showLibraryContents" value="true" />
-  </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CoreElectroAnalysis" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
@@ -181,6 +157,8 @@
           <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/misc.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
           <PATH vcs="Git" revision="">$PROJECT_DIR$/FacadePhotoManager.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/PhotoManagerMainwindow.py</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/ui/PhotoManagerMainwindow.ui</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Created" />
@@ -288,27 +266,25 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.PhotoManager">
+  <component name="RunManager">
     <configuration name="PhotoManager" type="PythonConfigurationType" factoryName="Python">
+      <module name="PhotoManager" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Python36\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="PhotoManager" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FacadePhotoManager.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
     </configuration>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -335,52 +311,45 @@
       <option name="project" value="LOCAL" />
       <updated>1590590574840</updated>
     </task>
-    <task id="LOCAL-00003" summary="Bug remove">
-      <created>1590590664726</created>
+    <task id="LOCAL-00003" summary="Include exeption for file choose and dialog error class">
+      <created>1591041933479</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1590590664726</updated>
+      <updated>1591041933480</updated>
     </task>
-    <task id="LOCAL-00004" summary="Some enchansment of usability applyed">
-      <created>1591106109666</created>
+    <task id="LOCAL-00004" summary="Some quakity control added">
+      <created>1592510681654</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1591106109666</updated>
+      <updated>1592510681654</updated>
     </task>
-    <task id="LOCAL-00005" summary="Some enchansment of usability applyed">
-      <created>1592490000579</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1592490000579</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1672" y="-8" width="1696" height="1066" extended-state="6" />
+    <frame x="-8" y="0" width="1357" height="735" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25244498" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18211207" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30711207" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39978448" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27596664" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32924694" />
+      <window_info anchor="bottom" id="Python Console" order="7" weight="0.32924694" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.24827586" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39655173" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Data View" order="3" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32924694" />
     </layout>
   </component>
   <component name="UnknownFeatures">
@@ -402,217 +371,123 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Correction of FacadePhotoManager file" />
     <MESSAGE value="Code transform to more clear version to satisfy pep8" />
-    <MESSAGE value="Bug remove" />
-    <MESSAGE value="Some enchansment of usability applyed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some enchansment of usability applyed" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="414" y="173" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591452954578">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="414" y="173" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1591452954578" />
-    <state x="740" y="273" key="FileChooserDialogImpl" timestamp="1591452952471">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="740" y="273" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591452952471" />
-    <state width="1898" height="198" key="GridCell.Tab.0.bottom" timestamp="1591453492277">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1898" height="198" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591453492277" />
-    <state width="1898" height="198" key="GridCell.Tab.0.center" timestamp="1591453492277">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1898" height="198" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591453492277" />
-    <state width="1898" height="198" key="GridCell.Tab.0.left" timestamp="1591453492276">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1898" height="198" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591453492276" />
-    <state width="1898" height="198" key="GridCell.Tab.0.right" timestamp="1591453492277">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state width="1898" height="198" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591453492277" />
-    <state x="461" y="150" key="SettingsEditor" timestamp="1591451763309">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="461" y="150" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1591451763309" />
+    <MESSAGE value="Include exeption for file choose and dialog error class" />
+    <MESSAGE value="Some quakity control added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some quakity control added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="1394">
+          <caret line="82" lean-forward="true" selection-start-line="82" selection-end-line="82" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
+            <element signature="e#513#718#0" />
+            <element signature="e#781#1157#0" />
+            <element signature="e#2911#4122#0" />
+            <element signature="e#4157#4882#0" />
+            <element signature="e#4912#5106#0" />
+            <element signature="e#5137#5330#0" />
+            <element signature="e#5361#5554#0" />
+            <element signature="e#5585#5820#0" />
+            <element signature="e#5855#6529#0" />
+            <element signature="e#6581#6778#0" />
+            <element signature="e#9220#11208#0" />
+            <element signature="e#11239#13922#0" />
+            <element signature="e#13962#15039#0" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LasFileOperations.py">
+    <entry file="file://$PROJECT_DIR$/../../Lib/genericpath.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="357">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="612">
+          <caret line="36" column="44" selection-start-line="36" selection-start-column="44" selection-end-line="36" selection-end-column="44" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../PyScientistNotes/PrepareData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5831">
-          <caret line="346" column="0" lean-forward="false" selection-start-line="346" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
+            <element signature="e#513#718#0" />
+            <element signature="e#781#1157#0" />
+            <element signature="e#2911#4122#0" />
+            <element signature="e#4157#4882#0" />
+            <element signature="e#4912#5106#0" />
+            <element signature="e#5137#5330#0" />
+            <element signature="e#5361#5554#0" />
+            <element signature="e#5585#5820#0" />
+            <element signature="e#5855#6529#0" />
+            <element signature="e#6581#6778#0" />
+            <element signature="e#9220#11208#0" />
+            <element signature="e#11239#13922#0" />
+            <element signature="e#13962#15039#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="595">
+          <caret line="39" column="47" lean-forward="true" selection-start-line="39" selection-start-column="47" selection-end-line="39" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="48" column="0" lean-forward="true" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="680">
+          <caret line="40" column="86" selection-start-line="40" selection-start-column="86" selection-end-line="40" selection-end-column="86" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/MainBackend_PyScientistNotes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/DialogTableFromSqlDbChoose.py" />
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/PyScientistDataImportModule.py" />
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/MainBackend_PyScientistNotes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
-          <caret line="49" column="0" lean-forward="true" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4114">
-          <caret line="242" column="24" lean-forward="false" selection-start-line="242" selection-start-column="24" selection-end-line="242" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
+          <caret line="242" column="24" selection-start-line="242" selection-start-column="24" selection-end-line="242" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/QListWidgetExample.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1632">
-          <caret line="96" column="8" lean-forward="false" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="32" />
+          <caret line="96" column="8" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/PhotoManagerMainWindow_conversion.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4114">
-          <caret line="242" column="24" lean-forward="false" selection-start-line="242" selection-start-column="24" selection-end-line="242" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
-          </folding>
+          <caret line="242" column="24" selection-start-line="242" selection-start-column="24" selection-end-line="242" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -625,8 +500,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/PhotoManagerMainWindow_conversion.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="true" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+        <state>
+          <caret column="16" lean-forward="true" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -636,14 +511,14 @@
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/QListWidgetExample.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
-          <caret line="96" column="8" lean-forward="false" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="32" />
+          <caret line="96" column="8" selection-start-line="96" selection-start-column="8" selection-end-line="96" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ui/PhotoManagerMainWindow_conversion.bat">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="16" lean-forward="false" selection-start-line="0" selection-start-column="16" selection-end-line="0" selection-end-column="16" />
+        <state>
+          <caret column="16" selection-start-column="16" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -653,79 +528,77 @@
     <entry file="file://$PROJECT_DIR$/../PyScientistNotes/MainBackend_PyScientistNotes.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="106">
-          <caret line="308" column="106" lean-forward="false" selection-start-line="308" selection-start-column="101" selection-end-line="308" selection-end-column="106" />
+          <caret line="308" column="106" selection-start-line="308" selection-start-column="101" selection-end-line="308" selection-end-column="106" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.github/workflows/pythonapp.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirments.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1122">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../PyScientistNotes/PrepareData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="346" column="0" lean-forward="false" selection-start-line="346" selection-start-column="0" selection-end-line="355" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../Sequence_6_analysis/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7320">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirments.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LasFileOperations" />
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="17">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LasFileOperations.py">
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="97">
+          <caret line="1067" selection-start-line="1067" selection-end-line="1067" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/_pydev_imps/_pydev_execfile.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PhotoManagerMainwindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../Lib/genericpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="278" column="23" lean-forward="false" selection-start-line="278" selection-start-column="23" selection-end-line="278" selection-end-column="23" />
+        <state relative-caret-position="196">
+          <caret line="211" column="26" selection-start-line="211" selection-start-column="26" selection-end-line="211" selection-end-column="26" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#351#479#0" expanded="false" />
-            <element signature="e#513#718#0" expanded="false" />
-            <element signature="e#11239#13922#0" expanded="false" />
-            <element signature="e#13962#15039#0" expanded="false" />
+            <element signature="e#513#718#0" />
+            <element signature="e#781#1157#0" />
+            <element signature="e#2911#4122#0" />
+            <element signature="e#4157#4882#0" />
+            <element signature="e#4912#5106#0" />
+            <element signature="e#5137#5330#0" />
+            <element signature="e#5361#5554#0" />
+            <element signature="e#5585#5820#0" />
+            <element signature="e#5855#6529#0" />
+            <element signature="e#6581#6778#0" />
+            <element signature="e#9220#11208#0" />
+            <element signature="e#11239#13922#0" />
+            <element signature="e#13962#15039#0" />
           </folding>
         </state>
       </provider>

@@ -45,7 +45,7 @@ def add_element_in_q_list_widget(list_widget, element):
 class FileObjectsSet:
     """Class of file-system objects set (files and folders) have a folder path,
      which have given to him while initialization by this path all objects inside collecting
-     There is also link to aplication main window provided while instating"""
+     There is also link to application main window provided while instating"""
     def __init__(self, path, parent):
         self.name = 'unknown'
         self.path = path  # Set main folder path attribute
@@ -199,26 +199,26 @@ class FileObjectsSet:
         def cycle_sub_find(folders, folders_new):
             temp_children = []
             temp_folders = []
-            for curr_folder in folders:
-                curr_children_of_folder = (os.listdir(curr_folder))
-                for cur_name in curr_children_of_folder:
-                    temp_children.append(F'{curr_folder}/{cur_name}')
+            # Initially we have the list of folders which have been stored in main folder (folders)
+            for curr_folder in folders:  # Go through folders
+                curr_children_of_folder = (os.listdir(curr_folder))  # For each folder get list of content
+                for cur_name in curr_children_of_folder:  # Go through content of folder for each folder
+                    if os.path.isdir(F'{curr_folder}/{cur_name}'):
+                        temp_folders.append(F'{curr_folder}/{cur_name}')
 
-            # Going through the list with paths to file objects
-            for child_path in temp_children:
-                # If the object on the specified path is a folder, then add it to the list
-                if os.path.isdir(child_path):
-                    temp_folders.append(child_path)
-                    folders_new.append(child_path)
+            # This way at the finish of the operation we have list of all objects stored in first level folders
+            # including subfolders.
+            folders_new.extend(temp_folders)
 
             # If after viewing there are subfolders exists and the
-            #  viewing depth is less than 100, recursively launch the function
+            # viewing depth is less than 100, recursively launch the function
             if len(temp_folders) > 0 and self.depth_of_folder < 100:
                 self.depth_of_folder = self.depth_of_folder+1
                 # Recursively running the function inside itself
                 cycle_sub_find(folders=temp_folders, folders_new=folders_new)
 
         # Running the recursive folder search function
+        print(self.folder_path_list)
         cycle_sub_find(folders=self.folder_path_list, folders_new=self.folder_path_list)
 
         # По всем найденным папкам ищем файловые объекты (под файловыми объектами понимаем как непосредственно файлы,
