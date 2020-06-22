@@ -349,13 +349,19 @@ class FileSystemObject:
 
 
 class FigureObject():
+    """Class of figure object"""
     def __init__(self, path):
         self.path = path
         self.name = None
         self.size = None
         self.date = None
 
+        self.get_size()
+        self.get_date()
+        self.get_name()
+
     def get_size(self):
+        """Method to get size of the picture"""
         # Check the correctness of its path (by length <= 256) then find out the file object size
         if len(self.path) > 256:
             self.size = None
@@ -364,17 +370,16 @@ class FigureObject():
             self.size = os.path.getsize(self.path)  # if it is file get the size in bites
 
     def get_date(self):
+        """Method to get date of last modification of the picture"""
         self.date = os.stat(self.path).st_mtime
 
     def get_name(self):
+        """Method to get name of the picture"""
         _, self.name = os.path.split(self.path)
 
-
-
-
 class FigureListDialog(QDialog):
-    """Class inherited from QDialog provides dialog which sows figure list
-    and allow to do some manipulation with it
+    """Class inherited from QDialog provides dialog which shows figure list
+    and allows to do some manipulation with them
     """
     def __init__(self, figures, parent):
         super().__init__()
@@ -387,15 +392,15 @@ class FigureListDialog(QDialog):
         self.list_widget = QListWidget()
         self.figures_paths = figures
 
+
+
         # Put the objects into QListWidget
         self.list_widget.clear()
 
-        for path in self.figures_path:
+        for path in self.figures_paths:
             add_element_in_q_list_widget(self.list_widget, path)
 
         self.layout.addWidget(self.list_widget)
-
-        self.layoutHor = QHBoxLayout()
 
         self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
         self.button_box.accepted.connect(self.accept)
@@ -407,7 +412,7 @@ class FigureListDialog(QDialog):
         self.show_dupicate_figures_button.clicked.connect(self.show_duplicate_figures)
         self.layout.addWidget(self.show_dupicate_figures_button)
 
-        self.resize(700, 900)
+        self.resize(500, 500)
         self.setLayout(self.layout)
 
         self.show()
@@ -415,9 +420,34 @@ class FigureListDialog(QDialog):
             self.result = 'Оk'
 
     def show_duplicate_figures(self):
-        print('clicked')
+        """method to highlight figure is probably have a duplicates"""
+        names = []
+        sizes = []
+        includes_name = []
+        includes_size = []
+        figure_set = []
+
         for path in self.figures_paths:
-            print(self.figures_path)
+            fig_obj = FigureObject(path)
+            names.append(fig_obj.name)
+            sizes.append(fig_obj.size)
+            figure_set.append(fig_obj)
+
+        for name in names:
+            includes_name.append(names.count(name))
+
+        for size in sizes:
+            includes_size.append(sizes.count(size))
+
+        zipped = list(zip(includes_name, includes_size, names, sizes, figure_set))
+
+        for row in zipped:
+            if row[0] > 1 and row[1] > 1:
+                print(row[4].path)
+
+
+
+
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -444,8 +474,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
-        self.lineEdit_for_dir_name.setText('./')
-        # self.lineEdit_for_dir_name.setText('Z:/GeolResearch/_INTERNAL_/Отдел ОПМ/+Geolog Projects/West_Qurna-2/')
+        self.lineEdit_for_dir_name.setText('C:/Python36/Scripts/')
 
         self.toolButton_find_figures.clicked.connect(self.find_figures)
 
@@ -519,6 +548,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         # Make link to System Objects Set with compliance of number of its set in spinbox
         file_objects_set = self.objects_sets_container[self.set_to_print]
+
         # Create dialog which shows list of figures in main folder and can do some stat
         dialog = FigureListDialog(file_objects_set.figure_path_list, self)
         del dialog
