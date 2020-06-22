@@ -1,6 +1,5 @@
 import sys
 import os
-import time
 from PyQt5.QtWidgets import QApplication, \
     QMainWindow, \
     QFileDialog,\
@@ -8,10 +7,12 @@ from PyQt5.QtWidgets import QApplication, \
     QListWidget, \
     QDialog, \
     QVBoxLayout, \
+    QHBoxLayout, \
     QLabel, \
+    QToolButton, \
     QDialogButtonBox, \
     QMessageBox
-from PyQt5.QtCore import Qt
+
 from PhotoManagerMainwindow import Ui_MainWindow
 
 
@@ -44,8 +45,21 @@ def add_element_in_q_list_widget(list_widget, element):
 
 class FileObjectsSet:
     """Class of file-system objects set (files and folders) have a folder path,
-     which have given to him while initialization by this path all objects inside collecting
-     There is also link to application main window provided while instating"""
+    which have given to him while initialization by this path all objects inside collecting
+    There is also link to application main window provided while instating"""
+
+    # Dictionary of correspondence of extensions types and extensions
+    extension_dict = {'doc file': ['.doc', '.docx'],
+                      'xls file': ['.xls', '.xlsx', '.xlsm'],
+                      'rar file': ['.rar', '.zip'],
+                      'pdf file': ['.pdf'],
+                      'pict. file': ['.jpg', '.png', '.tiff', '.tif', '.jpeg', '.bmp'],
+                      'txt file': ['.txt'],
+                      'csv file': ['.csv'],
+                      'exe file': ['.exe', '.bat'],
+                      'las file': ['.las'],
+                      'dlis file': ['.dlis']}
+
     def __init__(self, path, parent):
         self.name = 'unknown'
         self.path = path  # Set main folder path attribute
@@ -53,6 +67,7 @@ class FileObjectsSet:
         self.children_names = []  # This container will include absolute paths
         self.children_container = []  # This container will include objects (instance of FileSystemObject)
         self.folder_path_list = []  # This container will include paths to folders
+        self.figure_path_list = [] # This container will include paths to figures
         self.ext_list = []
         self.type_list = []
         self.size_list = []
@@ -74,12 +89,13 @@ class FileObjectsSet:
         self.create_initial_folder_list()
         self.search_subfolders_and_files_in_them()
 
-        # Call methods forming attributes of instance for rest of the levels of folder
+        # Call methods forming attributes of instance for rest of the folder levels of main folder
         self.exts()
         self.types()
         self.sizes()
         self.dates()
         self.get_sizes()
+        self.get_figure_path_lsit()
 
         # Count files with different extensions
         self.count_ext_types()
@@ -91,19 +107,19 @@ class FileObjectsSet:
         """Method for quality control of prepared self"""
 
         # Prepare dictionaries with links to list with file objects parameters
-        dict = {'children_name': self.children_names,
-                'children_container': self.children_container,
-                'ext_list': self.ext_list,
-                'type_list': self.type_list,
-                'size_list': self.size_list,
-                'date_list': self.date_list}
+        dict_list = {'children_name': self.children_names,
+                     'children_container': self.children_container,
+                     'ext_list': self.ext_list,
+                     'type_list': self.type_list,
+                     'size_list': self.size_list,
+                     'date_list': self.date_list}
 
         error = False  # initially set error flag to False
         error_count = 0  # counter for possible errors
         error_list = []  # list for possible error message
 
-        for key in dict:
-            if len(dict['children_container']) != len(dict[key]):
+        for key in dict_list:
+            if len(dict_list['children_container']) != len(dict_list[key]):
                 error = True
                 error_count += 1
                 error_list.append(F'Something wrong with length of list {[key]}')
@@ -116,18 +132,29 @@ class FileObjectsSet:
         else:
             print('prepared nice object! The quantity of elements of list within object matches to each other')
 
+
+    def get_figure_path_lsit(self):
+        for object in self.children_container:
+            if self.extension_dict['pict. file'].count(object.ext) > 0:
+                self.figure_path_list.append(object.path)
+
     def children(self):
 
         """Searching for file objects inside main folder"""
         self.children_names = []
         self.children_container = []
-        for name in os.listdir(self.path): #pass through all objects in main folder
+        for name in os.listdir(self.path):  # pass through all objects in main folder
             if os.path.exists(F'{self.path}{name}'):
-                self.children_names.append(F'{self.path}{name}') #add path to file object in "children_names" attribute
-                self.children_container.append(FileSystemObject(F'{self.path}{name}')) #Create instance and add it to container
+                # Add path to file object in "children_names" attribute
+                self.children_names.append(F'{self.path}{name}')
+                # Create instance and add it to container
+                self.children_container.append(FileSystemObject(F'{self.path}{name}'))
             else:
                 # Show warning message if the incorrect path observed
-                QMessageBox.warning(self.parent, "Warning", F"incorrect path to file or folder {self.path}{name}", QMessageBox.Ok)
+                QMessageBox.warning(self.parent,
+                                    "Warning",
+                                    F"incorrect path to file or folder {self.path}{name}",
+                                    QMessageBox.Ok)
 
     def exts(self):
         """Extension list creation according objects in "children_container" attribute"""
@@ -152,26 +179,25 @@ class FileObjectsSet:
         self.date_list = []
         for obj in self.children_container:
             self.date_list.append(obj.date)
-        print(self.date_list)
 
     def get_sizes(self):
         """Calculate full, minimal and maximal sizes of files"""
-        sum = 0
+        sum_sizes = 0
         count = 0
         # Calculate full size of files
         for size in self.size_list:
             if size is not None:
-                sum += size
+                sum_sizes += size
                 count += 1
-        self.full_size = sum/1048576
-        self.avg_size = (sum/1048576)/count
+        self.full_size = sum_sizes/1048576
+        self.avg_size = (sum_sizes/1048576)/count
 
         # Calculate minimal and maximal size of files
         sizes = list(self.size_list)
         for x in range(sizes.count(None)):
             try:
                 sizes.remove(None)
-            except:
+            except Exception:
                 pass
         self.size_maximal = max(sizes)/1048576
         self.size_minimal = min(sizes)/1048576
@@ -185,19 +211,16 @@ class FileObjectsSet:
                 self.folder_path_list.append(obj.path)
 
     def search_subfolders_and_files_in_them(self):
-        """Метод выполняющий поиск в подпапках основной папки, по результатам работы
-         атрибуты объекта дополняются в соответствии с содержащимися в подпапках файловыми объектами
-         , оценивается уровень вложенности папок.
+        """Method which performing search in subfolders of main folderbased on results
+           object attributes are supplemented according to the file objects contained in subfolders
+           , there is also evaluates the level of folder nesting.
+           Add data in following attributes of object FileObjectsSet
 
-         Add data in following attributes of object FileObjectsSet
-
-         self.children_names -
-         self.children_container
-         self.folder_list
-        """
+           self.children_names - container for path to file system objects
+           self.children_container - container for instances of file system objects
+           self.folder_list - list of folders in main folder"""
 
         def cycle_sub_find(folders, folders_new):
-            temp_children = []
             temp_folders = []
             # Initially we have the list of folders which have been stored in main folder (folders)
             for curr_folder in folders:  # Go through folders
@@ -218,18 +241,17 @@ class FileObjectsSet:
                 cycle_sub_find(folders=temp_folders, folders_new=folders_new)
 
         # Running the recursive folder search function
-        print(self.folder_path_list)
         cycle_sub_find(folders=self.folder_path_list, folders_new=self.folder_path_list)
 
-        # По всем найденным папкам ищем файловые объекты (под файловыми объектами понимаем как непосредственно файлы,
-        # так и папки как таковые без содержимого)
+        # We search for file objects in all folders have been found
+        # (under file objects we understand files and also the folders not taking into account the files inside)
         all_children = []
         for folder in self.folder_path_list:
             children_of_folder = (os.listdir(folder))
             for name in children_of_folder:
                 all_children.append(F'{folder}/{name}')
 
-        # Путь к каждому файлу включаем в список и создаем объект, помещаем в контейнер объектов файловой системы
+        # We put the path to each file in the list and also put in the container the instances of file system objects
         for abs_path in all_children:
             self.children_names.append(F'{abs_path}')
             self.children_container.append(FileSystemObject(F'{abs_path}'))
@@ -237,7 +259,7 @@ class FileObjectsSet:
     def count_ext_types(self):
 
         def ext_counter(ext_list, parent):
-            """Функция для суммирования колличества файлов с однотипными расширениями
+            """Function for summing the number of files with the same type of extensions
             :param ext_list:
             :param parent:
             :return counter:
@@ -247,70 +269,59 @@ class FileObjectsSet:
                 counter += parent.ext_list.count(ext.lower())
             return counter
 
-        # С помощью стандартного метода count получаем колличество файлов и папок в атрибуте "type_list"
-        # представляющем из себя словарь, добавляем результат в словарь колличества файлов определенного типа
+        # Using the standard "count" method for attribute "type_list"
+        # we get the number of files and folders in main folder
         self.voc_types.update({'file': self.type_list.count('file')})
         self.voc_types.update({'folder': self.type_list.count('folder')})
-
-        # Считаем сколько файлов и с какими расширениями есть в каталоге
-        # По результатам подсчета колличества файлов с определенными расширениями дополняем словарь
-        doc_ext = ['.doc', '.docx']
-        self.voc_types.update({'doc file': ext_counter(doc_ext, self)})
-        excel_ext = ['.xls', '.xlsx', '.xlsm']
-        self.voc_types.update({'xls file': ext_counter(excel_ext, self)})
-        rar_ext = ['.rar', '.zip']
-        self.voc_types.update({'rar file': ext_counter(rar_ext, self)})
-        pdf_ext = ['.pdf']
-        self.voc_types.update({'pdf file': ext_counter(pdf_ext, self)})
-        pict_ext = ['jpg.', 'png.', 'tiff.', 'tif.', 'jpeg.', 'bmp.']
-        self.voc_types.update({'pict. file': ext_counter(pict_ext, self)})
-        txt_ext = ['.txt']
-        self.voc_types.update({'txt file': ext_counter(txt_ext, self)})
-        csv_ext = ['.csv']
-        self.voc_types.update({'csv file': ext_counter(csv_ext, self)})
-        exe_ext = ['.exe', '.bat']
-        self.voc_types.update({'exe file': ext_counter(exe_ext, self)})
-        las_ext = ['.las']
-        self.voc_types.update({'las file': ext_counter(las_ext, self)})
-        dlis_ext = ['.dlis']
-        self.voc_types.update({'dlis file': ext_counter(dlis_ext, self)})
+        # Based on the results of counting the number of files with certain extensions, we supplement the dictionary
+        self.voc_types.update({'doc file': ext_counter(self.extension_dict['doc file'], self)})
+        self.voc_types.update({'xls file': ext_counter(self.extension_dict['xls file'], self)})
+        self.voc_types.update({'rar file': ext_counter(self.extension_dict['rar file'], self)})
+        self.voc_types.update({'pdf file': ext_counter(self.extension_dict['pdf file'], self)})
+        self.voc_types.update({'pict. file': ext_counter(self.extension_dict['pict. file'], self)})
+        self.voc_types.update({'txt file': ext_counter(self.extension_dict['txt file'], self)})
+        self.voc_types.update({'csv file': ext_counter(self.extension_dict['csv file'], self)})
+        self.voc_types.update({'exe file': ext_counter(self.extension_dict['exe file'], self)})
+        self.voc_types.update({'las file': ext_counter(self.extension_dict['las file'], self)})
+        self.voc_types.update({'dlis file': ext_counter(self.extension_dict['dlis file'], self)})
 
 
 class FileSystemObject:
-    """Класс объекта представляющий собой папку или файл (при создании на вход подается
-    абсолютный путь по которому находится объект).
-    Содержит атрибуты:
-    path - абсолютный путь по которому находится объект;
-    ext - расширение объекта, в случае папки присваивается расширение '.folder';
-    type - тип объекта [file, folder, unknown];
-    size - размер объекта (как ведеь себя в случае папки?).
+    """An object class that represents an empty folder or a file (when creating as the input parameter is given
+    absolute path where the object is located).
+    Includes attributes:
+    path - absolute path where the object is located;
+    ext - expansion of the object, in case the folder is given the extensionя расширение '.folder';
+    type - object type ['file', 'folder', 'unknown'];
+    size - object size (in case of taking into consideration of emty folder ist size is equal zero).
     """
 
     def __init__(self, path):
         self.path = path
         self.type = 'unknown'
         self.ext = '.unknown'
+        # Set date to initially date
+        self.date = ''
 
+        # Calling the method to get sizes
+        self.get_size()
+        # Calling the method to get the types and extensions
+        self.get_type_ext()
+        # Calling the method to get dates
+        self.get_date()
 
+    def get_size(self):
         # Check the correctness of its path (by length <= 256) then find out the file object size if it is not folder,
-        if len(path) > 256:
+        if len(self.path) > 256:
             self.size = None
-            print('Caution!!!! the length of file path more than 256 characters')
+            print(F'Caution!!!! the length of file path {self.path} more than 256 characters')
         else:
             if os.path.isfile(self.path):
                 self.size = os.path.getsize(self.path)  # if it is file get the size in bites
             else:
                 self.size = None  # if it is folder set size to zero
 
-        # Set date to initialy date
-        self.date = ''
-
-        # Вызываем метод с помощью которого получаем тип и расширение
-        self.get_type_ext_findout()
-        # Вызываем метод с помощью которого получаем время последнего доступа к файлу
-        self.get_date()
-
-    def get_type_ext_findout(self):
+    def get_type_ext(self):
         """The method assigns to attributes "type" and "ext" the values have been obtained as a result of processing
         absolute path to the file
         :return: void
@@ -337,11 +348,35 @@ class FileSystemObject:
         в Unix или время создания в Windows):'''
 
 
+class FigureObject():
+    def __init__(self, path):
+        self.path = path
+        self.name = None
+        self.size = None
+        self.date = None
+
+    def get_size(self):
+        # Check the correctness of its path (by length <= 256) then find out the file object size
+        if len(self.path) > 256:
+            self.size = None
+            print(F'Caution!!!! the length of file path {self.path} more than 256 characters')
+        else:
+            self.size = os.path.getsize(self.path)  # if it is file get the size in bites
+
+    def get_date(self):
+        self.date = os.stat(self.path).st_mtime
+
+    def get_name(self):
+        _, self.name = os.path.split(self.path)
+
+
+
+
 class FigureListDialog(QDialog):
-    """Class of dialog which sows figure list
-    inherited from QDialog
+    """Class inherited from QDialog provides dialog which sows figure list
+    and allow to do some manipulation with it
     """
-    def __init__(self, figures):
+    def __init__(self, figures, parent):
         super().__init__()
 
         self.setWindowTitle("Visualise figure list")
@@ -350,30 +385,39 @@ class FigureListDialog(QDialog):
         self.label = QLabel('The figures list')
         self.layout.addWidget(self.label)
         self.list_widget = QListWidget()
+        self.figures_paths = figures
 
         # Put the objects into QListWidget
         self.list_widget.clear()
 
-        figures = filter_unique(figures)
-
-        for obj in figures:
-            add_element_in_q_list_widget(self.list_widget, obj)
+        for path in self.figures_path:
+            add_element_in_q_list_widget(self.list_widget, path)
 
         self.layout.addWidget(self.list_widget)
+
+        self.layoutHor = QHBoxLayout()
 
         self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
         self.button_box.accepted.connect(self.accept)
         self.button_box.rejected.connect(self.reject)
-
         self.layout.addWidget(self.button_box)
 
-        self.setFixedSize(700, 900)
+        self.show_dupicate_figures_button = QToolButton()
+        self.show_dupicate_figures_button.setText('show duplicates')
+        self.show_dupicate_figures_button.clicked.connect(self.show_duplicate_figures)
+        self.layout.addWidget(self.show_dupicate_figures_button)
 
+        self.resize(700, 900)
         self.setLayout(self.layout)
 
         self.show()
         if self.exec_() == QDialog.Accepted:
             self.result = 'Оk'
+
+    def show_duplicate_figures(self):
+        print('clicked')
+        for path in self.figures_paths:
+            print(self.figures_path)
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -470,18 +514,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.set_to_print = self.spinBox_of_file_object.value()
         if self.set_to_print > len(self.objects_sets_container)-1:
            self.spinBox_of_file_object.setValue(len(self.objects_sets_container)-1)
-        print(self.set_to_print)
 
     def find_figures(self):
+
+        # Make link to System Objects Set with compliance of number of its set in spinbox
         file_objects_set = self.objects_sets_container[self.set_to_print]
-
-
-
-
-        dialog = FigureListDialog(file_objects_set.ext_list)
+        # Create dialog which shows list of figures in main folder and can do some stat
+        dialog = FigureListDialog(file_objects_set.figure_path_list, self)
         del dialog
-        print('successfully clicked')
-
 
 if __name__ == '__main__':
     main_application()
