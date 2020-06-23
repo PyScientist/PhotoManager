@@ -1,19 +1,22 @@
 import sys
 import os
+
 from PyQt5.QtWidgets import QApplication, \
-    QMainWindow, \
-    QFileDialog,\
-    QListWidgetItem, \
-    QListWidget, \
-    QDialog, \
-    QVBoxLayout, \
-    QHBoxLayout, \
-    QLabel, \
-    QToolButton, \
-    QDialogButtonBox, \
-    QMessageBox
+                            QMainWindow, \
+                            QFileDialog,\
+                            QListWidgetItem, \
+                            QDialog, \
+                            QMessageBox
+
+from PyQt5.QtCore import QSize, \
+                         Qt
+
+from PyQt5.QtGui import QPixmap
+
+from PIL import Image
 
 from PhotoManagerMainwindow import Ui_MainWindow
+from FigureListDialog import Ui_Visualise_figure_list_form
 
 
 def main_application():
@@ -348,6 +351,10 @@ class FileSystemObject:
         в Unix или время создания в Windows):'''
 
 
+class LasObject():
+    pass
+
+
 class FigureObject():
     """Class of figure object"""
     def __init__(self, path):
@@ -355,10 +362,18 @@ class FigureObject():
         self.name = None
         self.size = None
         self.date = None
+        self.width = None
+        self.height = None
+        self.includes_name = None
+        self.includes_size = None
 
         self.get_size()
         self.get_date()
         self.get_name()
+        try:
+            self.get_dimensions()
+        except Exception as exception:
+            print(F'{exception} some strange dimensions behaviour for {self.path}')
 
     def get_size(self):
         """Method to get size of the picture"""
@@ -370,84 +385,139 @@ class FigureObject():
             self.size = os.path.getsize(self.path)  # if it is file get the size in bites
 
     def get_date(self):
-        """Method to get date of last modification of the picture"""
+        """Method to get date of last modification of the figure"""
         self.date = os.stat(self.path).st_mtime
 
     def get_name(self):
-        """Method to get name of the picture"""
+        """Method to get name of the figure"""
         _, self.name = os.path.split(self.path)
 
-class FigureListDialog(QDialog):
-    """Class inherited from QDialog provides dialog which shows figure list
+    def get_dimensions(self):
+        """Method to get dimensions (height and width) of the figure"""
+        image = Image.open(self.path)
+        self.width, self.height = image.size
+
+class FiguresSet():
+    def __init__(self, paths):
+        self.figure_objects_container = []
+        self.two_criteria_similar_figures = []
+        self.paths = []
+        self.names = []
+        self.sizes = []
+        self.includes_name = []
+        self.includes_size = []
+
+        for path in paths:
+            self.paths.append(path)
+            self.figure_objects_container.append(FigureObject(path))
+
+        for fig_obj in self.figure_objects_container:
+            self.names.append(fig_obj.name)
+            self.sizes.append(fig_obj.size)
+
+
+class FigureListDialog(QDialog, Ui_Visualise_figure_list_form):
+    """Class inherited from "QDialog" provides dialog which shows figure list
     and allows to do some manipulation with them
     """
     def __init__(self, figures, parent):
         super().__init__()
+        self.setupUi(self)
 
-        self.setWindowTitle("Visualise figure list")
-        self.setModal(True)
-        self.layout = QVBoxLayout()
-        self.label = QLabel('The figures list')
-        self.layout.addWidget(self.label)
-        self.list_widget = QListWidget()
+        self.mainwindow = parent
         self.figures_paths = figures
+        self.figure_sets = []
+        self.fig_set_to_operate = 0
+        self.duplicate_plotted = False
 
+        # Create initial list of figures
+        initial_fig_set = FiguresSet(self.figures_paths)
 
-
+        self.figure_sets.append(initial_fig_set)
         # Put the objects into QListWidget
-        self.list_widget.clear()
+        self.list_widget_figures.clear()
+        for path in self.figure_sets[self.fig_set_to_operate].paths:
+            add_element_in_q_list_widget(self.list_widget_figures, path)
 
-        for path in self.figures_paths:
-            add_element_in_q_list_widget(self.list_widget, path)
-
-        self.layout.addWidget(self.list_widget)
-
-        self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
-        self.button_box.accepted.connect(self.accept)
-        self.button_box.rejected.connect(self.reject)
-        self.layout.addWidget(self.button_box)
-
-        self.show_dupicate_figures_button = QToolButton()
-        self.show_dupicate_figures_button.setText('show duplicates')
+        # Adjust the connect method for button which shows probably duplicated figures
         self.show_dupicate_figures_button.clicked.connect(self.show_duplicate_figures)
-        self.layout.addWidget(self.show_dupicate_figures_button)
 
-        self.resize(500, 500)
-        self.setLayout(self.layout)
+        # Adjust buttonBox buttons connects
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
+        # Prepare Figure and put it QLabel at the right
+        pixmap = QPixmap(self.figure_sets[self.fig_set_to_operate].paths[0]).scaled(QSize(400, 400), Qt.KeepAspectRatio)
+        self.label_for_figure_show.setPixmap(pixmap)
+
+        # Show what method we want to launch if itemActivated signal emitted from list widget
+        self.list_widget_figures.itemActivated.connect(self.redraw_pixmap)
+
+        # Resize Dialog dimensions according to Desktop properties
+        self.resize(QApplication.desktop().width()/3, QApplication.desktop().height()/2)
+
+        # Plot initial message in stat field
+        self.Statistics_Field.setText(F'Figures quantity is: {len(self.figure_sets[0].figure_objects_container)}')
+
+        # Show dialog and waiting for reply
         self.show()
         if self.exec_() == QDialog.Accepted:
             self.result = 'Оk'
 
+    def redraw_pixmap(self):
+        """Method for redraw Pixmap on the Label if was selected another item in list widget"""
+        row_selected = self.list_widget_figures.row(self.list_widget_figures.selectedItems()[0])
+
+        if self.duplicate_plotted:
+            FigSet_similar = self.figure_sets[self.fig_set_to_operate].two_criteria_similar_figures
+            fig_obj = FigSet_similar[row_selected]
+        else:
+            FigSet = self.figure_sets[self.fig_set_to_operate]
+            fig_obj = FigSet.figure_objects_container[row_selected]
+
+        pixmap = QPixmap(fig_obj.path).scaled(QSize(400, 400), Qt.KeepAspectRatio)
+        self.label_for_figure_show.setPixmap(pixmap)
+        self.Statistics_Field.setText(F'Figure path: {fig_obj.path}')
+        self.Statistics_Field.append(F'Figure Name: {fig_obj.name}')
+        self.Statistics_Field.append(F'Figure size: {fig_obj.size/1048576} MB')
+        self.Statistics_Field.append(F'Figure dimensions (width x height): {fig_obj.width} x {fig_obj.height}')
+        self.Statistics_Field.append(F'Similarity ("similiar name" x "similiar size"):'
+                                     F' {fig_obj.includes_name} x {fig_obj.includes_size}')
+
     def show_duplicate_figures(self):
-        """method to highlight figure is probably have a duplicates"""
+        """Method to highlight figure which probably have a duplicates"""
         names = []
         sizes = []
-        includes_name = []
-        includes_size = []
         figure_set = []
 
-        for path in self.figures_paths:
-            fig_obj = FigureObject(path)
-            names.append(fig_obj.name)
-            sizes.append(fig_obj.size)
-            figure_set.append(fig_obj)
+        # Get link to appropriate figure set 
+        FigSet = self.figure_sets[self.fig_set_to_operate]
 
-        for name in names:
-            includes_name.append(names.count(name))
+        # Get count of identical file names
+        for iterable in enumerate(FigSet.names):
+            FigSet.includes_name.append(FigSet.names.count(iterable[1]))
+            FigSet.figure_objects_container[iterable[0]].includes_name = FigSet.names.count(iterable[1])
 
-        for size in sizes:
-            includes_size.append(sizes.count(size))
+        # Get count of identical sizes
+        for iterable in enumerate(FigSet.sizes):
+            FigSet.includes_size.append(FigSet.sizes.count(iterable[1]))
+            FigSet.figure_objects_container[iterable[0]].includes_size = FigSet.sizes.count(iterable[1])
+            
+        zipped = list(zip(FigSet.includes_name, FigSet.includes_size, FigSet.names, FigSet.sizes, FigSet.figure_objects_container))
 
-        zipped = list(zip(includes_name, includes_size, names, sizes, figure_set))
+        FigSet.two_criteria_similar_figures = []
+        for row in enumerate(zipped):
+            if row[1][0] > 1 and row[1][1] > 1:
+                FigSet.two_criteria_similar_figures.append(FigSet.figure_objects_container[row[0]])
 
-        for row in zipped:
-            if row[0] > 1 and row[1] > 1:
-                print(row[4].path)
+        # Clear list widget and plot there all path to figures which may be duplicated
+        self.list_widget_figures.clear()
+        for obj in FigSet.two_criteria_similar_figures:
+            add_element_in_q_list_widget(self.list_widget_figures, obj.path)
 
-
-
-
+        # Plot message in stat field
+        self.Statistics_Field.setText(F'Found {len(FigSet.two_criteria_similar_figures)} probably duplicated figures')
+        self.duplicate_plotted = True
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -474,7 +544,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 
         self.lineEdit_for_dir_name.setToolTip('Set folder path here!')
-        self.lineEdit_for_dir_name.setText('C:/Python36/Scripts/')
+        self.lineEdit_for_dir_name.setText('c:/Python36/Scripts/PhotoManager/test_figures/')
 
         self.toolButton_find_figures.clicked.connect(self.find_figures)
 
@@ -522,7 +592,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.textEdit_for_report.setText('')
         self.textEdit_for_report.setText(F'Всего в дирректории {len(file_objects_set.children_names)} объекта')
         self.textEdit_for_report.append(F'из них {file_objects_set.voc_types["file"]}'
-                                        F'файла и {file_objects_set.voc_types["folder"]} папки')
+                                        F' файла и {file_objects_set.voc_types["folder"]} папки')
         self.textEdit_for_report.append(F'{file_objects_set.voc_types["xls file"]} excel файла')
         self.textEdit_for_report.append(F'{file_objects_set.voc_types["doc file"]} word документа')
         self.textEdit_for_report.append(F'{file_objects_set.voc_types["rar file"]} файла архива')

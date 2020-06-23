@@ -1,0 +1,1 @@
+pyuic5 C:\Python36\Scripts\PhotoManager\ui\FigureListDialog.ui -o C:\Python36\Scripts\PhotoManager\FigureListDialog.py
