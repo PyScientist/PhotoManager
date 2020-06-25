@@ -1,6 +1,8 @@
 import sys
 import os
 
+import time
+
 from PyQt5.QtWidgets import QApplication, \
                             QMainWindow, \
                             QFileDialog,\
@@ -17,6 +19,9 @@ from PIL import Image
 
 from PhotoManagerMainwindow import Ui_MainWindow
 from FigureListDialog import Ui_Visualise_figure_list_form
+from ProgressBarWidget import Ui_ProgressWidget
+
+from threading import Thread
 
 
 def main_application():
@@ -398,22 +403,55 @@ class FigureObject():
         self.width, self.height = image.size
 
 class FiguresSet():
-    def __init__(self, paths):
+    def __init__(self, paths, mainwindow):
+        self.mainwindow = mainwindow
         self.figure_objects_container = []
         self.two_criteria_similar_figures = []
-        self.paths = []
+        self.paths = paths
         self.names = []
         self.sizes = []
         self.includes_name = []
         self.includes_size = []
 
-        for path in paths:
-            self.paths.append(path)
-            self.figure_objects_container.append(FigureObject(path))
+
+
+
+
+        status_thread = Thread(target = self.progress_bar)
+        status_thread.run()
+
+        start_time = time.time()
+
+        self.get_figures(self, self.paths, self.figure_objects_container)
+
+        complete_time = time.time()
+
+        print(complete_time-start_time)
 
         for fig_obj in self.figure_objects_container:
             self.names.append(fig_obj.name)
             self.sizes.append(fig_obj.size)
+
+    def progress_bar(self):
+        progress_bar_dialog = ProgressBarDialog()
+
+    def get_figures(self, paths, container):
+        count_elem = 0
+        for path in paths:
+            count_elem += 1
+            container.append(FigureObject(path))
+            print(F'Performed {count_elem/len(self.paths)*100} percent of calculation')
+
+
+class ProgressBarDialog(QDialog, Ui_ProgressWidget):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+        # Show dialog and waiting for reply
+
+        self.show()
+        self.exec_()
 
 
 class FigureListDialog(QDialog, Ui_Visualise_figure_list_form):
@@ -431,7 +469,7 @@ class FigureListDialog(QDialog, Ui_Visualise_figure_list_form):
         self.duplicate_plotted = False
 
         # Create initial list of figures
-        initial_fig_set = FiguresSet(self.figures_paths)
+        initial_fig_set = FiguresSet(self.figures_paths, self.mainwindow)
 
         self.figure_sets.append(initial_fig_set)
         # Put the objects into QListWidget
@@ -517,6 +555,8 @@ class FigureListDialog(QDialog, Ui_Visualise_figure_list_form):
 
         # Plot message in stat field
         self.Statistics_Field.setText(F'Found {len(FigSet.two_criteria_similar_figures)} probably duplicated figures')
+
+        # Set flag if method performed
         self.duplicate_plotted = True
 
 
