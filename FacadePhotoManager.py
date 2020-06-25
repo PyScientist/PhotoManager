@@ -3,6 +3,8 @@ import os
 
 import time
 
+from PyQt5.QtCore import QThread
+
 from PyQt5.QtWidgets import QApplication, \
                             QMainWindow, \
                             QFileDialog,\
@@ -375,10 +377,12 @@ class FigureObject():
         self.get_size()
         self.get_date()
         self.get_name()
+
         try:
             self.get_dimensions()
         except Exception as exception:
             print(F'{exception} some strange dimensions behaviour for {self.path}')
+
 
     def get_size(self):
         """Method to get size of the picture"""
@@ -413,43 +417,48 @@ class FiguresSet():
         self.includes_name = []
         self.includes_size = []
 
+        print('блядина готовится к работе')
+        self.getFiguresThread = GetFiguresThread(self)
+        self.getFiguresThread.start()
+
+        self.getFiguresThread.finished.connect(self.fff)
+
+        print('Работает блядина')
+
+    def fff(self):
+        print('fff')
+
+
+class GetFiguresThread(QThread):
+    def __init__(self, figures_set):
+        super().__init__()
+        self.paths = figures_set.paths
+        self.names = figures_set.names
+        self.sizes = figures_set.sizes
+        self.figure_objects_container = figures_set.figure_objects_container
 
 
 
-
-        status_thread = Thread(target = self.progress_bar)
-        status_thread.run()
-
+    def run(self):
         start_time = time.time()
-
-        self.get_figures(self, self.paths, self.figure_objects_container)
-
+        count_elem = 0
+        for path in self.paths:
+            count_elem += 1
+            self.figure_objects_container.append(FigureObject(path))
+            print(F'Performed {count_elem/len(self.paths)*100} percent of calculation')
         complete_time = time.time()
-
         print(complete_time-start_time)
 
         for fig_obj in self.figure_objects_container:
             self.names.append(fig_obj.name)
             self.sizes.append(fig_obj.size)
 
-    def progress_bar(self):
-        progress_bar_dialog = ProgressBarDialog()
-
-    def get_figures(self, paths, container):
-        count_elem = 0
-        for path in paths:
-            count_elem += 1
-            container.append(FigureObject(path))
-            print(F'Performed {count_elem/len(self.paths)*100} percent of calculation')
-
 
 class ProgressBarDialog(QDialog, Ui_ProgressWidget):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
-        # Show dialog and waiting for reply
-
+        print('here')
         self.show()
         self.exec_()
 
@@ -484,7 +493,7 @@ class FigureListDialog(QDialog, Ui_Visualise_figure_list_form):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
 
-        # Prepare Figure and put it QLabel at the right
+        # Prepare Figure and put it in QLabel at the right
         pixmap = QPixmap(self.figure_sets[self.fig_set_to_operate].paths[0]).scaled(QSize(400, 400), Qt.KeepAspectRatio)
         self.label_for_figure_show.setPixmap(pixmap)
 
