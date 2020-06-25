@@ -19,10 +19,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd0e777a-0aca-4f0d-bf55-d1fff098f975" name="Default" comment="Adding files which not added previously">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ui/ProgressBarWidget_conversion.bat" />
+    <list default="true" id="fd0e777a-0aca-4f0d-bf55-d1fff098f975" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FacadePhotoManager.py" afterPath="$PROJECT_DIR$/FacadePhotoManager.py" />
     </list>
     <ignored path="$PROJECT_DIR$/venv/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,8 +35,8 @@
       <file leaf-file-name="FacadePhotoManager.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="424" column="19" lean-forward="false" selection-start-line="424" selection-start-column="19" selection-end-line="424" selection-end-column="19" />
+            <state relative-caret-position="255">
+              <caret line="428" column="39" lean-forward="true" selection-start-line="428" selection-start-column="39" selection-end-line="428" selection-end-column="39" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <element signature="e#626#754#0" expanded="false" />
@@ -301,7 +299,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593058838845</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Adding files which not added previously">
+      <created>1593093939356</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1593093939356</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -799,8 +804,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FacadePhotoManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="424" column="19" lean-forward="false" selection-start-line="424" selection-start-column="19" selection-end-line="424" selection-end-column="19" />
+        <state relative-caret-position="255">
+          <caret line="428" column="39" lean-forward="true" selection-start-line="428" selection-start-column="39" selection-end-line="428" selection-end-column="39" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <element signature="e#626#754#0" expanded="false" />
