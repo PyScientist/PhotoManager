@@ -417,13 +417,15 @@ class FiguresSet():
         self.includes_name = []
         self.includes_size = []
 
-        print('блядина готовится к работе')
+        print('бл.... готовится к работе')
         self.getFiguresThread = GetFiguresThread(self)
         self.getFiguresThread.start()
 
+        ProgressBarDialog()
+
         self.getFiguresThread.finished.connect(self.fff)
 
-        print('Работает блядина')
+        print('Работает бл...')
 
     def fff(self):
         print('fff')
